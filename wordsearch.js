@@ -1,34 +1,34 @@
 // Canvas 
 let canvas = document.getElementById('grid')
+let ctx = canvas.getContext('2d')
 
 // Grid properties
-const cellX = 32
-const cellY = 32
-
+let cellSize = 32
+let gridSize
 // Grid array
 let grid
 
 // Draw the grid
-let drawGrid = (ctx, cols, rows) => {
+let drawGrid = (ctx, gridLength) => {
 	// Change canvas width and height according to the number of rows/cols
-	canvas.style.width = cellX * rows
-	canvas.style.height = cellY * cols
-	canvas.width = cellX * rows
-	canvas.height = cellY * cols
+	canvas.style.width = cellSize * gridLength
+	canvas.style.height = cellSize * gridLength
+	canvas.width = cellSize * gridLength
+	canvas.height = cellSize * gridLength
 
 	// Draw lines horizontally
-	for (let x = 0; x < rows; x++) {
+	for (let x = 0; x < gridLength; x++) {
 		ctx.beginPath()
-		ctx.moveTo(cellX * x, 0)
-		ctx.lineTo(cellX * x, canvas.width )
+		ctx.moveTo(cellSize * x, 0)
+		ctx.lineTo(cellSize * x, canvas.width )
 		ctx.strokeStyle = "black";
     	ctx.stroke();
 	}
 	// Draw lines vertically
-	for (let y = 0; y < cols; y++) {
+	for (let y = 0; y < gridLength; y++) {
 		ctx.beginPath()
-		ctx.moveTo(0, cellY * y)
-		ctx.lineTo(canvas.height , cellY * y)
+		ctx.moveTo(0, cellSize * y)
+		ctx.lineTo(canvas.height , cellSize * y)
 		ctx.strokeStyle = "black";
 		ctx.stroke();
 	}
@@ -46,40 +46,44 @@ create2DArray = (size) => {
 	return array;
 };
 
-createNewGrid = () => {
+insertRandomChar = (ctx) => {
 	// Get the grid length of the grid
-	const gridSize = canvas.width/cellX
+	const gridSize = canvas.width/cellSize
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	grid = create2DArray(gridSize)
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
-			grid[x][y] = characters.charAt(Math.floor(Math.random() * 26));
+			if (grid[x][y] == null) {
+				ctx.font = "32px Arial";
+				ctx.textBaseline = 'top'
+				grid[x][y] = characters.charAt(Math.floor(Math.random() * 26));
+				ctx.fillText(grid[x][y], x * cellSize, y * cellSize);
+			}
 		}
 	}
 }
 
-drawText = (ctx) => {
-	const gridSize = canvas.width/cellX
+let createGrid = () => {
+	let gridSize = parseInt(document.getElementById('gridsize').value)
 
-	for (let x = 0; x < gridSize; x++) {
-		for (let y = 0; y < gridSize; y++) {
-			ctx.font = "32px Arial";
-			ctx.textBaseline = 'top'
-			ctx.fillText(grid[x][y], x * cellX, y * cellY);
-			console.log(x * gridSize)
-		}
+	if (Number.isInteger(gridSize)) {
+		drawGrid(ctx, gridSize)
+		insertRandomChar(ctx)
+	}
+	else {
+		console.log("not a number")
 	}
 }
+
+
 
 let init = () => {
-	let ctx = canvas.getContext('2d')
 
 	// Check if canvas is null
 	if (ctx) {
-		drawGrid(ctx ,16,16)
-		createNewGrid()
-		drawText(ctx)
-		console.log(grid)
+		// Create default grid
+		drawGrid(ctx, 16)
+		insertRandomChar(ctx)
 	}
 	else {
 		console.log("ERROR")
