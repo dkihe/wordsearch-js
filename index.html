@@ -7,9 +7,17 @@
 </head>
 <body onload="init()">
 	<canvas id="grid" width="1600" height="1600"></canvas>
-	<form>
+	<form id="gridform">
 		<label for="gridsize">Size:</label>
 		<input id="gridsize" type="text">
+		<br/>
+		<div id="wordinput">
+			<label for="wordbank">Word Bank</label>
+			<input class="wordbank" type="text">
+		</div>
+		<button type="button" onclick="createNewInputElem()">Add Word</button>
+		<br/>
+
 		<button type="button" onclick="createGrid()">Create New Grid</button>
 	</form>
 	<script src="wordsearch.js"></script>

@@ -6,7 +6,9 @@ let ctx = canvas.getContext('2d')
 let cellSize = 32
 let gridSize
 // Grid array
-let grid
+let gridarray
+// Wordbank array
+let wordbankarray = []
 
 // Draw the grid
 let drawGrid = (ctx, gridLength) => {
@@ -16,7 +18,7 @@ let drawGrid = (ctx, gridLength) => {
 	canvas.width = cellSize * gridLength
 	canvas.height = cellSize * gridLength
 
-	// Draw lines horizontally
+	// Draw lines horizontallysss
 	for (let x = 0; x < gridLength; x++) {
 		ctx.beginPath()
 		ctx.moveTo(cellSize * x, 0)
@@ -50,19 +52,20 @@ insertRandomChar = (ctx) => {
 	// Get the grid length of the grid
 	const gridSize = canvas.width/cellSize
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	grid = create2DArray(gridSize)
+	gridarray = create2DArray(gridSize)
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
-			if (grid[x][y] == null) {
+			if (gridarray[x][y] == null) {
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
-				grid[x][y] = characters.charAt(Math.floor(Math.random() * 26));
-				ctx.fillText(grid[x][y], x * cellSize, y * cellSize);
+				gridarray[x][y] = characters.charAt(Math.floor(Math.random() * 26));
+				ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
 			}
 		}
 	}
 }
 
+// Create a new grid
 let createGrid = () => {
 	let gridSize = parseInt(document.getElementById('gridsize').value)
 
@@ -76,9 +79,46 @@ let createGrid = () => {
 }
 
 
+// Creates a new input element
+let createNewInputElem = () => {
+	let wordinput = document.getElementById('wordinput')
+	let wordbank = document.getElementsByClassName('wordbank')
+	if (checkWordBankInput()) {
+		appendToWordBank()
+		let input = document.createElement('input')
+		input.type = 'text'
+		input.className = 'wordbank'
+		wordinput.appendChild(input)
+	}
+	else {
+		alert("Words must be 3 or more characters in length")
+	}
+}
+
+// Check if each word in each input box is valid
+let checkWordBankInput = () => {
+	let wordbank = document.getElementsByClassName('wordbank')
+	for (let i = 0; i < wordbank.length; i++) {
+		if (wordbank[i].value.length < 3) {
+			return false
+		}
+	}
+	return true
+}
+
+// Append new words to the wordbank array
+let appendToWordBank = () => {
+	wordbankarray = []
+	let wordbank = document.getElementsByClassName('wordbank')
+	for (let i = 0; i < wordbank.length; i++) {
+		if (wordbank[i].value.length > 0) {
+			wordbankarray.push(wordbank[i].value)
+		}
+	}
+	console.log(wordbankarray)
+}
 
 let init = () => {
-
 	// Check if canvas is null
 	if (ctx) {
 		// Create default grid
