@@ -4,7 +4,7 @@ let ctx = canvas.getContext('2d')
 
 // Grid properties
 let cellSize = 32
-let gridSize
+let gridSize = canvas.width/cellSize
 // Grid array
 let gridarray
 // Wordbank array
@@ -17,7 +17,7 @@ let drawGrid = (ctx, gridLength) => {
 	canvas.style.height = cellSize * gridLength
 	canvas.width = cellSize * gridLength
 	canvas.height = cellSize * gridLength
-
+	gridSize = canvas.width/cellSize
 	// Draw lines horizontallysss
 	for (let x = 0; x < gridLength; x++) {
 		ctx.beginPath()
@@ -49,8 +49,6 @@ create2DArray = (size) => {
 };
 
 insertRandomChar = (ctx) => {
-	// Get the grid length of the grid
-	const gridSize = canvas.width/cellSize
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	gridarray = create2DArray(gridSize)
 	for (let x = 0; x < gridSize; x++) {
@@ -67,11 +65,12 @@ insertRandomChar = (ctx) => {
 
 // Create a new grid
 let createGrid = () => {
-	let gridSize = parseInt(document.getElementById('gridsize').value)
+	let gridSizeValue = parseInt(document.getElementById('gridsize').value)
 
-	if (Number.isInteger(gridSize)) {
-		drawGrid(ctx, gridSize)
+	if (Number.isInteger(gridSizeValue)) {
+		drawGrid(ctx, gridSizeValue)
 		insertRandomChar(ctx)
+		console.log(gridSize)
 	}
 	else {
 		console.log("not a number")
@@ -82,7 +81,6 @@ let createGrid = () => {
 // Creates a new input element
 let createNewInputElem = () => {
 	let wordinput = document.getElementById('wordinput')
-	let wordbank = document.getElementsByClassName('wordbank')
 	if (checkWordBankInput()) {
 		appendToWordBank()
 		let input = document.createElement('input')
@@ -91,7 +89,7 @@ let createNewInputElem = () => {
 		wordinput.appendChild(input)
 	}
 	else {
-		alert("Words must be 3 or more characters in length")
+		alert("Words must be bettween 3 and " + gridSize + " characters in length")
 	}
 }
 
@@ -99,7 +97,7 @@ let createNewInputElem = () => {
 let checkWordBankInput = () => {
 	let wordbank = document.getElementsByClassName('wordbank')
 	for (let i = 0; i < wordbank.length; i++) {
-		if (wordbank[i].value.length < 3) {
+		if (wordbank[i].value.length < 3 || wordbank[i].value.length > gridSize) {
 			return false
 		}
 	}
