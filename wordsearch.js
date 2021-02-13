@@ -71,6 +71,8 @@ let createGrid = () => {
 		drawGrid(ctx, gridSizeValue)
 		insertRandomChar(ctx)
 		console.log(gridSize)
+		sortWords(wordbankarray)
+		console.log(wordbankarray)
 	}
 	else {
 		console.log("not a number")
@@ -79,6 +81,7 @@ let createGrid = () => {
 
 
 // Creates a new input element
+// ONCLICK EVENT
 let createNewInputElem = () => {
 	let wordinput = document.getElementById('wordinput')
 	if (checkWordBankInput()) {
@@ -114,6 +117,20 @@ let appendToWordBank = () => {
 		}
 	}
 	console.log(wordbankarray)
+}
+
+
+
+
+// ALGORITHM
+// 1. Sort words in word bank from decending order according to length
+// 2. Pick random spot on grid
+// 3. Place HEAD of array onto random spot
+
+let sortWords = (arr) => {
+	arr.sort((a, b) =>{
+		return (a.length - b.length)
+	})
 }
 
 let init = () => {
