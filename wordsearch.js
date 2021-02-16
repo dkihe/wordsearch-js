@@ -37,7 +37,7 @@ let drawGrid = (ctx, gridLength) => {
 }
 
 // Createan empty 2D array
-create2DArray = (size) => {
+let create2DArray = (size) => {
 	let array = [];
 	for (let x = 0; x < size; x++) {
 		array.push([]);
@@ -48,9 +48,14 @@ create2DArray = (size) => {
 	return array;
 };
 
-insertRandomChar = (ctx) => {
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+// Initialize the grid array
+let initGridArray = () => {
 	gridarray = create2DArray(gridSize)
+}
+
+// Insert random characters on the grid array and the grid itself
+let insertRandomChar = (ctx) => {
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
 			if (gridarray[x][y] == null) {
@@ -69,10 +74,12 @@ let createGrid = () => {
 
 	if (Number.isInteger(gridSizeValue)) {
 		drawGrid(ctx, gridSizeValue)
-		insertRandomChar(ctx)
-		console.log(gridSize)
+		initGridArray()
+		// insertRandomChar(ctx)
+		// Testing
 		sortWords(wordbankarray)
 		console.log(wordbankarray)
+		console.log("GRID SIZE: " + gridSize)
 	}
 	else {
 		console.log("not a number")
@@ -90,6 +97,8 @@ let createNewInputElem = () => {
 		input.type = 'text'
 		input.className = 'wordbank'
 		wordinput.appendChild(input)
+		// Testing
+		checkWordPlacement(wordbankarray[0],0)
 	}
 	else {
 		alert("Words must be bettween 3 and " + gridSize + " characters in length")
@@ -123,22 +132,56 @@ let appendToWordBank = () => {
 
 
 // ALGORITHM
-// 1. Sort words in word bank from decending order according to length
+// 1. Sort words in word bank from descending order according to length
 // 2. Pick random spot on grid
 // 3. Place HEAD of array onto random spot
 
+// Sort an array (arr) in descending order according to word length
 let sortWords = (arr) => {
 	arr.sort((a, b) =>{
 		return (a.length - b.length)
 	})
 }
 
+// Checks if a word can fit at a random location on the grid.  Dir refers to the direction on the word
+let checkWordPlacement = (word, dir) => {
+	// dir
+	// 0: forward
+	// 1: backward
+	// 2: up
+	// 3: down
+	// 4: diagonal (forward-up)
+	// 5: diagonal (backward-down)
+	// 6: diagonal (forward-up)
+	// 7: diagonal (backward-down)
+	let randPointX = Math.floor(Math.random() * gridSize)
+	let randPointY = Math.floor(Math.random() * gridSize)
+	let wordLength = word.length - 1
+	console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+	console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
+
+	console.log(gridarray.length)
+	console.log(gridarray)
+	switch (dir) {
+		case 0:
+			if ((randPointX + wordLength <= gridarray.length) && (gridarray[randPointX + wordLength][randPointY] == null)) {
+				console.log("FIT")
+			}
+			else {
+				console.log("CAN'T FIT")
+			}
+	}
+
+}
+
 let init = () => {
-	// Check if canvas is null
+	// Check if canvas is nullss
 	if (ctx) {
 		// Create default grid
 		drawGrid(ctx, 16)
-		insertRandomChar(ctx)
+		initGridArray()
+		console.log(gridSize)
+		// insertRandomChar(ctx)
 	}
 	else {
 		console.log("ERROR")
