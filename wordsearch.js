@@ -98,7 +98,7 @@ let createNewInputElem = () => {
 		input.className = 'wordbank'
 		wordinput.appendChild(input)
 		// Testing
-		checkWordPlacement(wordbankarray[0],1)
+		checkWordPlacement(wordbankarray[0],0)
 	}
 	else {
 		alert("Words must be bettween 3 and " + gridSize + " characters in length")
@@ -154,52 +154,84 @@ let checkWordPlacement = (word, dir) => {
 	// 5: diagonal (backward-down)
 	// 6: diagonal (forward-up)
 	// 7: diagonal (backward-down)
-	let randPointX = Math.floor(Math.random() * gridSize)
-	let randPointY = Math.floor(Math.random() * gridSize)
+	let isPlaced = false
 	let wordLength = word.length - 1
+
 	console.log(gridarray.length)
 	console.log(gridarray)
+	console.log(word)
+
+	while (!isPlaced) {
+		let randPointX = Math.floor(Math.random() * (gridSize - 1))
+		let randPointY = Math.floor(Math.random() * (gridSize - 1))
+		switch (dir) {
+			// Forward
+			case 0:
+				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+				console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
+				if ((randPointX + wordLength < gridarray.length) && (gridarray[randPointX + wordLength][randPointY] == null)) {
+					console.log("FIT")
+					isPlaced = true
+					placeWord(word, randPointX, randPointY, 0)
+				}
+				else {
+					console.log("CAN'T FIT")
+				}
+				break;
+			// Backward
+			case 1:
+				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+				console.log("FIT POINT: " + (randPointX - wordLength) + ", " + randPointY)
+				if ((randPointX - wordLength >= 0) && (gridarray[randPointX - wordLength][randPointY] == null)) {
+					console.log("FIT")
+					isPlaced = true
+				}
+				else {
+					console.log("CAN'T FIT")
+				}
+				break;
+			// Down
+			case 2:
+				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+				console.log("FIT POINT: " + randPointX + ", " + (randPointY + wordLength))
+				if ((randPointY + wordLength < gridarray.length) && (gridarray[randPointX][randPointY + wordLength] == null)) {
+					console.log("FIT")
+					isPlaced = true
+				}
+				else {
+					console.log("CAN'T FIT")
+				}
+				break;
+			// Up
+			case 3:
+				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+				console.log("FIT POINT: " + randPointX + ", " + (randPointY - wordLength))
+				if ((randPointY - wordLength >= 0) && (gridarray[randPointX][randPointY - wordLength] == null)) {
+					console.log("FIT")
+					isPlaced = true
+				}
+				else {
+					console.log("CAN'T FIT")
+				}
+				break;
+		}
+	}
+}
+
+let placeWord = (word, startX, startY, dir) => {
 	switch (dir) {
-		// Forward
 		case 0:
-			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-			console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
-			if ((randPointX + wordLength <= gridarray.length) && (gridarray[randPointX + wordLength][randPointY] == null)) {
-				console.log("FIT")
+			for (let i = 0; i < word.length; i++) {
+				console.log(word[i])
+				console.log("PLACE AT: " + (startX + i) + ", " + startY)
 			}
-			else {
-				console.log("CAN'T FIT")
-			}
-		// Backward
+			break;
 		case 1:
-			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-			console.log("FIT POINT: " + (randPointX - wordLength) + ", " + randPointY)
-			if ((randPointX - wordLength >= 0) && (gridarray[randPointX - wordLength][randPointY] == null)) {
-				console.log("FIT")
-			}
-			else {
-				console.log("CAN'T FIT")
-			}
-		// Down
+			break;
 		case 2:
-			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-			console.log("FIT POINT: " + randPointX + ", " + (randPointY + wordLength))
-			if ((randPointY + wordLength <= gridarray.length) && (gridarray[randPointX][randPointY + wordLength] == null)) {
-				console.log("FIT")
-			}
-			else {
-				console.log("CAN'T FIT")
-			}
-		// Up
+			break;
 		case 3:
-			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-			console.log("FIT POINT: " + randPointX + ", " + (randPointY - wordLength))
-			if ((randPointY - wordLength >= 0) && (gridarray[randPointX][randPointY - wordLength] == null)) {
-				console.log("FIT")
-			}
-			else {
-				console.log("CAN'T FIT")
-			}
+			break;
 	}
 }
 
