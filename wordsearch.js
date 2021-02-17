@@ -98,7 +98,7 @@ let createNewInputElem = () => {
 		input.className = 'wordbank'
 		wordinput.appendChild(input)
 		// Testing
-		checkWordPlacement(wordbankarray[0],0)
+		checkWordPlacement(wordbankarray[0],1)
 	}
 	else {
 		alert("Words must be bettween 3 and " + gridSize + " characters in length")
@@ -148,8 +148,8 @@ let checkWordPlacement = (word, dir) => {
 	// dir
 	// 0: forward
 	// 1: backward
-	// 2: up
-	// 3: down
+	// 2: down
+	// 3: up
 	// 4: diagonal (forward-up)
 	// 5: diagonal (backward-down)
 	// 6: diagonal (forward-up)
@@ -157,28 +157,57 @@ let checkWordPlacement = (word, dir) => {
 	let randPointX = Math.floor(Math.random() * gridSize)
 	let randPointY = Math.floor(Math.random() * gridSize)
 	let wordLength = word.length - 1
-	console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-	console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
-
 	console.log(gridarray.length)
 	console.log(gridarray)
 	switch (dir) {
+		// Forward
 		case 0:
+			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+			console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
 			if ((randPointX + wordLength <= gridarray.length) && (gridarray[randPointX + wordLength][randPointY] == null)) {
 				console.log("FIT")
 			}
 			else {
 				console.log("CAN'T FIT")
 			}
+		// Backward
+		case 1:
+			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+			console.log("FIT POINT: " + (randPointX - wordLength) + ", " + randPointY)
+			if ((randPointX - wordLength >= 0) && (gridarray[randPointX - wordLength][randPointY] == null)) {
+				console.log("FIT")
+			}
+			else {
+				console.log("CAN'T FIT")
+			}
+		// Down
+		case 2:
+			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+			console.log("FIT POINT: " + randPointX + ", " + (randPointY + wordLength))
+			if ((randPointY + wordLength <= gridarray.length) && (gridarray[randPointX][randPointY + wordLength] == null)) {
+				console.log("FIT")
+			}
+			else {
+				console.log("CAN'T FIT")
+			}
+		// Up
+		case 3:
+			console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+			console.log("FIT POINT: " + randPointX + ", " + (randPointY - wordLength))
+			if ((randPointY - wordLength >= 0) && (gridarray[randPointX][randPointY - wordLength] == null)) {
+				console.log("FIT")
+			}
+			else {
+				console.log("CAN'T FIT")
+			}
 	}
-
 }
 
 let init = () => {
 	// Check if canvas is nullss
 	if (ctx) {
 		// Create default grid
-		drawGrid(ctx, 16)
+		drawGrid(ctx, 6)
 		initGridArray()
 		console.log(gridSize)
 		// insertRandomChar(ctx)
