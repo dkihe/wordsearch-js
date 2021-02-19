@@ -81,6 +81,7 @@ let insertChar = () => {
 }
 
 // Create a new grid
+// ONCLICK EVENT
 let createGrid = () => {
 	let gridSizeValue = parseInt(document.getElementById('gridsize').value)
 	if (Number.isInteger(gridSizeValue)) {
@@ -90,11 +91,11 @@ let createGrid = () => {
 		// Testing
 		sortWords(wordbankarray)
 		console.log(wordbankarray)
+		console.log(gridarray)
 		console.log("GRID SIZE: " + gridSize)
 		// checkWordPlacement(wordbankarray[0],3)
 		for (let i = 0; i < wordbankarray.length; i++) {
-			let rand = Math.floor(Math.random() * 4)
-			checkWordPlacement(wordbankarray[i],rand)
+			checkWordPlacement(wordbankarray[i])
 		}
 	}
 	else {
@@ -158,162 +159,110 @@ let sortWords = (arr) => {
 		return (a.length - b.length)
 	})
 }
-
-// Checks if a word can fit at a random location on the grid.  Dir refers to the direction on the word
-let checkWordPlacement = (word, dir) => {
-	// dir
-	// 0: forward
-	// 1: backward
-	// 2: down
-	// 3: up
-	// 4: diagonal (forward-up)
-	// 5: diagonal (backward-down)
-	// 6: diagonal (forward-up)
-	// 7: diagonal (backward-down)
+	
+	// Checks if a word can fit at a random location on the grid.  Dir refers to the direction on the word
+let checkWordPlacement = (word) => {
 	let isPlaced = false
 	let wordLength = word.length - 1
-	let randPointX, randPointY
+	let randPointX, randPointY, dir
 
+	
+	
+	// Get random point
+	randPointX = Math.floor(Math.random() * (gridSize - 1))
+	randPointY = Math.floor(Math.random() * (gridSize - 1))
+	
+	console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+
+	dir = Math.floor(Math.random() * 4)
 	while (!isPlaced) {
-		randPointX = Math.floor(Math.random() * (gridSize - 1))
-		randPointY = Math.floor(Math.random() * (gridSize - 1))
-		switch (dir) {
-			// Forward
-			case 0:
-				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-				console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
-				if ((randPointX + wordLength < gridarray.length) && (gridarray[randPointX + wordLength][randPointY] == null)) {
-					// console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-					// console.log("FIT POINT: " + (randPointX + wordLength) + ", " + randPointY)
-					for (let i = 0; i < word.length; i++) {
-						if (gridarray[randPointX + i][randPointY] == word[i]) {
-							console.log("SAME WORD")
-							continue
-						}
-						else if (gridarray[randPointX + i][randPointY] == null) {
-							console.log("NULL LOCATION")
-							continue
-						}
-						else {
-							console.log("NOTHING")
-							break
-						}
-					}
-					console.log("CAN FIT")
-					// console.log(gridarray)
-					isPlaced = true
-				}
-				else {
-					console.log("CAN'T FIT")
-					break
-				}
-				// placeWord(word, randPointX, randPointY, dir)
-			// Backward
-			case 1:
-				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-				console.log("FIT POINT: " + (randPointX - wordLength) + ", " + randPointY)
-				if ((randPointX - wordLength >= 0) && (gridarray[randPointX - wordLength][randPointY] == null)) {
-					for (let i = 0; i < word.length; i++) {
-						if (gridarray[randPointX - i][randPointY] == word[i]) {
-							console.log("SAME WORD")
-							continue
-						}
-						else if (gridarray[randPointX - i][randPointY] == null) {
-							console.log("NULL LOCATION")
-							continue
-						}
-						else {
-							console.log("NOTHING")
-							break
-						}
-					}
-					console.log("FIT")
-					// console.log(gridarray)
-					isPlaced = true
-					// placeWord(word, randPointX, randPointY, dir)
-				}
-				else {
-					console.log("CAN'T FIT")
-					break;
-				}
-			// Down
-			case 2:
-				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-				console.log("FIT POINT: " + randPointX + ", " + (randPointY + wordLength))
-				if ((randPointY + wordLength < gridarray.length) && (gridarray[randPointX][randPointY + wordLength] == null)) {
-					for (let i = 0; i < word.length; i++) {
-						if (gridarray[randPointX][randPointY + i] == word[i]) {
-							console.log("SAME WORD")
-							continue
-						}
-						else if (gridarray[randPointX][randPointY + i] == null) {
-							console.log("NULL LOCATION")
-							continue
-						}
-						else {
-							console.log("NOTHING")
-							break
-						}
-					}
-					console.log("FIT")
-					// console.log(gridarray)
-					isPlaced = true
-					// placeWord(word, randPointX, randPointY, dir)
-				}
-				else {
-					console.log("CAN'T FIT")
-					break
-				}
-			// Up
-			case 3:
-				console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
-				console.log("FIT POINT: " + randPointX + ", " + (randPointY - wordLength))
-				if ((randPointY - wordLength >= 0) && (gridarray[randPointX][randPointY - wordLength] == null)) {
-					for (let i = 0; i < word.length; i++) {
-						if (gridarray[randPointX][randPointY - i] == word[i]) {
-							console.log("SAME WORD")
-							continue
-						}
-						else if (gridarray[randPointX][randPointY - i] == null) {
-							console.log("NULL LOCATION")
-							continue
-						}
-						else {
-							console.log("NOTHING")
-							break
-						}
-					}
-					console.log("FIT")
-					// console.log(gridarray)
-					isPlaced = true
-					// placeWord(word, randPointX, randPointY, dir)
-				}
-				else {
-					console.log("CAN'T FIT")
-					break
-				}
+		if (checkFit(word, randPointX, randPointY, dir)) {
+			placeWord(word, randPointX, randPointY, dir)
+			isPlaced = true
+		}
+		else {
+			console.log("RETURNED FALSE")
+			dir = Math.floor(Math.random() * 4)
+			randPointX = Math.floor(Math.random() * (gridSize - 1))
+			randPointY = Math.floor(Math.random() * (gridSize - 1))
 		}
 	}
-	placeWord(word, randPointX, randPointY, dir)
+}
+
+let checkFit = (word, pointX, pointY, dir) => {
+	let wordLength = word.length - 1
+		switch (dir) {
+			case 0:
+				for (let i = 0; i <= wordLength; i++) {
+					if ((pointX + wordLength <= gridSize - 1)) {
+						if (gridarray[pointX + i][pointY] == null || gridarray[pointX + i][pointY] == word[i]) {
+							console.log(word[i])
+							console.log("PLACE: " + word[i] + "AT: " + (pointX + i) + ", " + pointY)
+						}
+						else {
+							return false
+						}
+					}
+					else {
+						return false
+					}
+				}
+				return true
+				break
+			case 1:
+				for (let i = 0; i <= wordLength; i++) {
+					if ((pointX - wordLength >= 0)) {
+						if (gridarray[pointX - i][pointY] == null || gridarray[pointX - i][pointY] == word[i]) {
+							console.log("PLACE: " + word[i] + "AT: " + (pointX - i) + ", " + pointY)
+						}
+					}
+					else {
+						return false
+					}
+				}
+				return true
+				break
+			case 2:
+				for (let i = 0; i <= wordLength; i++) {
+					if ((pointY + wordLength <= gridSize - 1)) {
+						if (gridarray[pointX][pointY + i] == null || gridarray[pointX][pointY + i] == word[i]) {
+							console.log("PLACE: " + word[i] + "AT: " + pointX + ", " + (pointY + i))
+						}
+					}
+					else {
+						return false
+					}
+				}
+				return true
+				break
+			case 3:
+				for (let i = 0; i <= wordLength; i++) {
+					if ((pointY - wordLength >= 0)) {
+						if (gridarray[pointX][pointY - i] == null || gridarray[pointX][pointY - i] == word[i]) {
+							console.log("PLACE: " + word[i] + "AT: " + pointX + ", " + (pointY - i))
+						}
+					}
+					else {
+						return false
+					}
+				}
+				return true
+				break
+	}
 }
 
 let placeWord = (word, startX, startY, dir) => {
 	for (let i = 0; i < word.length; i++) {
 		switch (dir) {
 			case 0:
-				console.log(word[i])
-				console.log("PLACE AT: " + (startX + i) + ", " + startY)
 				gridarray[startX + i][startY] = word[i]
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
 				ctx.fillText(gridarray[startX + i][startY], (startX + i) * cellSize, startY * cellSize);
-				console.log(gridarray)
 				break;
 			case 1:
-				console.log(word[i])
-				console.log("PLACE AT: " + (startX - i) + ", " + startY)
 				gridarray[startX - i][startY] = word[i]
 
 				// Fill Grid 
@@ -322,8 +271,6 @@ let placeWord = (word, startX, startY, dir) => {
 				ctx.fillText(gridarray[startX - i][startY], (startX - i) * cellSize, startY * cellSize);
 				break;
 			case 2:
-				console.log(word[i])
-				console.log("PLACE AT: " + startX + ", " + (startY + i))
 				gridarray[startX][(startY + i)] = word[i]
 
 				// Fill Grid 
@@ -332,15 +279,12 @@ let placeWord = (word, startX, startY, dir) => {
 				ctx.fillText(gridarray[startX][(startY + i)], startX * cellSize, (startY + i) * cellSize);
 				break;
 			case 3:
-				console.log(word[i])
-				console.log("PLACE AT: " + startX + ", " + (startY - i))
 				gridarray[startX][(startY - i)] = word[i]
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
 				ctx.fillText(gridarray[startX][(startY - i)], startX * cellSize, (startY - i) * cellSize);
-				break;
 				break;
 		}
 	}
