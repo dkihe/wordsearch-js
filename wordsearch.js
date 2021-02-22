@@ -181,6 +181,7 @@ let checkWordPlacement = (word) => {
 	let isPlaced = false
 	let wordLength = word.length - 1
 	let randPointX, randPointY, dir
+	let loops = 0
 
 	
 	
@@ -211,7 +212,7 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 0:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX + wordLength <= gridSize - 1)) {
-						if (gridarray[pointX + i][pointY] == null || gridarray[pointX + i][pointY] == word[i]) {
+						if ((gridarray[pointX + i][pointY] == null) || (gridarray[pointX + i][pointY] == word[i])) {
 							console.log(word[i])
 							console.log("PLACE: " + word[i] + " AT: " + (pointX + i) + ", " + pointY)
 						}
@@ -221,6 +222,7 @@ let checkFit = (word, pointX, pointY, dir) => {
 						}
 					}
 					else {
+						console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -229,8 +231,12 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 1:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX - wordLength >= 0)) {
-						if (gridarray[pointX - i][pointY] == null || gridarray[pointX - i][pointY] == word[i]) {
+						if ((gridarray[pointX - i][pointY] == null) || (gridarray[pointX - i][pointY] == word[i])) {
 							console.log("PLACE: " + word[i] + " AT: " + (pointX - i) + ", " + pointY)
+						}
+						else {
+							console.log("DOES NOT FIT")
+							return false
 						}
 					}
 					else {
@@ -243,8 +249,12 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 2:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY + wordLength <= gridSize - 1)) {
-						if (gridarray[pointX][pointY + i] == null || gridarray[pointX][pointY + i] == word[i]) {
+						if ((gridarray[pointX][pointY + i] == null) || (gridarray[pointX][pointY + i] == word[i])) {
 							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY + i))
+						}
+						else {
+							console.log("DOES NOT FIT")
+							return false
 						}
 					}
 					else {
@@ -257,8 +267,12 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 3:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY - wordLength >= 0)) {
-						if (gridarray[pointX][pointY - i] == null || gridarray[pointX][pointY - i] == word[i]) {
+						if ((gridarray[pointX][pointY - i] == null) || (gridarray[pointX][pointY - i] == word[i])) {
 							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY - i))
+						}
+						else {
+							console.log("DOES NOT FIT")
+							return false
 						}
 					}
 					else {
