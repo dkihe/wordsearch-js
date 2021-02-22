@@ -68,18 +68,6 @@ let insertRandomChar = (ctx) => {
 	}
 }
 
-let insertChar = () => {
-	for (let x = 0; x < gridSize; x++) {
-		for (let y = 0; y < gridSize; y++) {
-			if (gridarray[x][y] != null) {
-				ctx.font = "32px Arial";
-				ctx.textBaseline = 'top'
-				ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
-			}
-		}
-	}
-}
-
 // Create a new grid
 // ONCLICK EVENT
 let createGrid = () => {
@@ -87,16 +75,9 @@ let createGrid = () => {
 	if (Number.isInteger(gridSizeValue)) {
 		drawGrid(ctx, gridSizeValue)
 		initGridArray()
-		// insertRandomChar(ctx)
-		// Testing
 		sortWords(wordbankarray)
-		// console.log("GRID SIZE: " + gridSize)
-
-		// // gridTest()
-		// // Testing
-		for (let i = 0; i < wordbankarray.length; i++) {
-			checkWordPlacement(wordbankarray[i])
-		}
+		console.log(wordbankarray)
+		checkWordPlacement()
 
 
 
@@ -106,6 +87,7 @@ let createGrid = () => {
 	}
 }
 
+// Simple test function to see layout of grid
 let gridTest = () => {
 	console.log(gridSize)
 	for (let x = 0; x < gridSize; x++) {
@@ -118,6 +100,13 @@ let gridTest = () => {
 			ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
 		}
 	}
+}
+
+// Redraws the grid
+let redrawGrid = () => {
+	let gridSizeValue = parseInt(document.getElementById('gridsize').value)
+	drawGrid(ctx, gridSizeValue)
+	initGridArray()
 }
 
 // Creates a new input element
@@ -162,13 +151,6 @@ let appendToWordBank = () => {
 }
 
 
-
-
-// ALGORITHM
-// 1. Sort words in word bank from descending order according to length
-// 2. Pick random spot on grid
-// 3. Place HEAD of array onto random spot
-
 // Sort an array (arr) in descending order according to word length
 let sortWords = (arr) => {
 	arr.sort((a, b) =>{
@@ -176,15 +158,13 @@ let sortWords = (arr) => {
 	})
 }
 	
-	// Checks if a word can fit at a random location on the grid.  Dir refers to the direction on the word
-let checkWordPlacement = (word) => {
+// Checks if a word can fit at a random location on the grid.  Dir refers to the direction on the word
+let checkWordPlacement = () => {
 	let isPlaced = false
-	let wordLength = word.length - 1
 	let randPointX, randPointY, dir
 	let loops = 0
+	let looplimit = 100
 
-	
-	
 	// Get random point
 	randPointX = Math.floor(Math.random() * (gridSize - 1))
 	randPointY = Math.floor(Math.random() * (gridSize - 1))
@@ -192,20 +172,31 @@ let checkWordPlacement = (word) => {
 	console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
 
 	dir = Math.floor(Math.random() * 4)
-	while (!isPlaced) {
-		if (checkFit(word, randPointX, randPointY, dir)) {
-			placeWord(word, randPointX, randPointY, dir)
-			isPlaced = true
-		}
-		else {
-			console.log("RETURNED FALSE")
-			dir = Math.floor(Math.random() * 4)
-			randPointX = Math.floor(Math.random() * (gridSize - 1))
-			randPointY = Math.floor(Math.random() * (gridSize - 1))
+	for (let word = 0; word < wordbankarray.length; word++) {
+		while ((!isPlaced || loops <= looplimit)) {
+			if (checkFit(wordbankarray[word], randPointX, randPointY, dir)) {
+				placeWord(wordbankarray[word], randPointX, randPointY, dir)
+				isPlaced = true
+				break
+			}
+			else {
+				if (loops >= looplimit) {
+					isPlaced = true
+					console.log("WORDS CANT FIT")
+					eraseGrid ()
+					break
+				}
+				console.log("RETURNED FALSE")
+				loops += 1
+				dir = Math.floor(Math.random() * 4)
+				randPointX = Math.floor(Math.random() * (gridSize - 1))
+				randPointY = Math.floor(Math.random() * (gridSize - 1))
+			}
 		}
 	}
 }
 
+// Checks to see if the current word will fit at a specific point on the grid
 let checkFit = (word, pointX, pointY, dir) => {
 	let wordLength = word.length - 1
 		switch (dir) {
@@ -285,6 +276,7 @@ let checkFit = (word, pointX, pointY, dir) => {
 	}
 }
 
+// Placesa the current word on the grid
 let placeWord = (word, startX, startY, dir) => {
 	for (let i = 0; i < word.length; i++) {
 		switch (dir) {
