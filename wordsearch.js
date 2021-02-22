@@ -90,19 +90,35 @@ let createGrid = () => {
 		// insertRandomChar(ctx)
 		// Testing
 		sortWords(wordbankarray)
-		console.log(wordbankarray)
-		console.log(gridarray)
-		console.log("GRID SIZE: " + gridSize)
-		// checkWordPlacement(wordbankarray[0],3)
+		// console.log("GRID SIZE: " + gridSize)
+
+		// // gridTest()
+		// // Testing
 		for (let i = 0; i < wordbankarray.length; i++) {
 			checkWordPlacement(wordbankarray[i])
 		}
+
+
+
 	}
 	else {
 		console.log("not a number")
 	}
 }
 
+let gridTest = () => {
+	console.log(gridSize)
+	for (let x = 0; x < gridSize; x++) {
+		for (let y = 0; y < gridSize; y++) {
+			gridarray[x][y] = x + ", " + y
+
+			// Fill Grid 
+			ctx.font = "16px Arial";
+			ctx.textBaseline = 'top'
+			ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
+		}
+	}
+}
 
 // Creates a new input element
 // ONCLICK EVENT
@@ -156,7 +172,7 @@ let appendToWordBank = () => {
 // Sort an array (arr) in descending order according to word length
 let sortWords = (arr) => {
 	arr.sort((a, b) =>{
-		return (a.length - b.length)
+		return (b.length - a.length)
 	})
 }
 	
@@ -197,9 +213,10 @@ let checkFit = (word, pointX, pointY, dir) => {
 					if ((pointX + wordLength <= gridSize - 1)) {
 						if (gridarray[pointX + i][pointY] == null || gridarray[pointX + i][pointY] == word[i]) {
 							console.log(word[i])
-							console.log("PLACE: " + word[i] + "AT: " + (pointX + i) + ", " + pointY)
+							console.log("PLACE: " + word[i] + " AT: " + (pointX + i) + ", " + pointY)
 						}
 						else {
+							console.log("DOES NOT FIT")
 							return false
 						}
 					}
@@ -213,10 +230,11 @@ let checkFit = (word, pointX, pointY, dir) => {
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX - wordLength >= 0)) {
 						if (gridarray[pointX - i][pointY] == null || gridarray[pointX - i][pointY] == word[i]) {
-							console.log("PLACE: " + word[i] + "AT: " + (pointX - i) + ", " + pointY)
+							console.log("PLACE: " + word[i] + " AT: " + (pointX - i) + ", " + pointY)
 						}
 					}
 					else {
+						console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -226,10 +244,11 @@ let checkFit = (word, pointX, pointY, dir) => {
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY + wordLength <= gridSize - 1)) {
 						if (gridarray[pointX][pointY + i] == null || gridarray[pointX][pointY + i] == word[i]) {
-							console.log("PLACE: " + word[i] + "AT: " + pointX + ", " + (pointY + i))
+							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY + i))
 						}
 					}
 					else {
+						console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -239,10 +258,11 @@ let checkFit = (word, pointX, pointY, dir) => {
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY - wordLength >= 0)) {
 						if (gridarray[pointX][pointY - i] == null || gridarray[pointX][pointY - i] == word[i]) {
-							console.log("PLACE: " + word[i] + "AT: " + pointX + ", " + (pointY - i))
+							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY - i))
 						}
 					}
 					else {
+						console.log("DOES NOT FIT")
 						return false
 					}
 				}
