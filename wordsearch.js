@@ -302,7 +302,7 @@ let placeWord = (word, startX, startY, dir) => {
 	for (let i = 0; i < word.length; i++) {
 		switch (dir) {
 			case 0:
-				gridarray[startX + i][startY] = word[i]
+				gridarray[startX + i][startY] = word[i].toUpperCase()
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
@@ -310,7 +310,7 @@ let placeWord = (word, startX, startY, dir) => {
 				ctx.fillText(gridarray[startX + i][startY], (startX + i) * cellSize, startY * cellSize);
 				break;
 			case 1:
-				gridarray[startX - i][startY] = word[i]
+				gridarray[startX - i][startY] = word[i].toUpperCase()
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
@@ -318,7 +318,7 @@ let placeWord = (word, startX, startY, dir) => {
 				ctx.fillText(gridarray[startX - i][startY], (startX - i) * cellSize, startY * cellSize);
 				break;
 			case 2:
-				gridarray[startX][(startY + i)] = word[i]
+				gridarray[startX][(startY + i)] = word[i].toUpperCase()
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
@@ -326,7 +326,7 @@ let placeWord = (word, startX, startY, dir) => {
 				ctx.fillText(gridarray[startX][(startY + i)], startX * cellSize, (startY + i) * cellSize);
 				break;
 			case 3:
-				gridarray[startX][(startY - i)] = word[i]
+				gridarray[startX][(startY - i)] = word[i].toUpperCase()
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
