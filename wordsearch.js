@@ -71,20 +71,36 @@ let insertRandomChar = (ctx) => {
 // Create a new grid
 // ONCLICK EVENT
 let createGrid = () => {
-	let gridSizeValue = parseInt(document.getElementById('gridsize').value)
-	if (Number.isInteger(gridSizeValue)) {
-		drawGrid(ctx, gridSizeValue)
-		initGridArray()
-		sortWords(wordbankarray)
-		console.log(wordbankarray)
-		checkWordPlacement()
+	// let gridSizeValue = parseInt(document.getElementById('gridsize').value)
+	// if (Number.isInteger(gridSizeValue)) {
+	// 	drawGrid(ctx, gridSizeValue)
+	// 	initGridArray()
+	// 	sortWords(wordbankarray)
+	// 	console.log(wordbankarray)
+	// 	checkWordPlacement()
+	// }
+	// else {
+	// 	console.log("not a number")
+	// }
+	drawGrid(ctx, gridSize)
+	initGridArray()
+	sortWords(wordbankarray)
+	console.log(wordbankarray)
+	checkWordPlacement()
+}
 
-
-
+let test = () => {
+	if (document.getElementById('small').checked) {
+		gridSize = document.getElementById('small').value
 	}
-	else {
-		console.log("not a number")
+	else if (document.getElementById('medium').checked) {
+		gridSize = document.getElementById('medium').value
 	}
+	else if (document.getElementById('large').checked) {
+		gridSize = document.getElementById('large').value
+	}
+
+	console.log(gridSize)
 }
 
 // Simple test function to see layout of grid
@@ -104,8 +120,8 @@ let gridTest = () => {
 
 // Redraws the grid
 let redrawGrid = () => {
-	let gridSizeValue = parseInt(document.getElementById('gridsize').value)
-	drawGrid(ctx, gridSizeValue)
+	// let gridSizeValue = parseInt(document.getElementById('gridsize').value)
+	drawGrid(ctx, gridSize)
 	initGridArray()
 }
 
@@ -320,7 +336,7 @@ let init = () => {
 	// Check if canvas is nullss
 	if (ctx) {
 		// Create default grid
-		drawGrid(ctx, 6)
+		drawGrid(ctx, 10)
 		initGridArray()
 		console.log(gridSize)
 		// insertRandomChar(ctx)
