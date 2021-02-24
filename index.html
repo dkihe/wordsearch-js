@@ -4,27 +4,33 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<link rel="stylesheet" href="index.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Sans&family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body onload="init()">
-	<canvas id="grid" width="1600" height="1600"></canvas>
-	<form id="gridform">
-		<div>
-			<label for="gridsize">Size:</label>
+	<div id=container>
+		<div id=canvasarea>
+			<canvas id="grid" width="1600" height="1600"></canvas>
+		</div>
+		<form id="gridform">
+			<button type="button" onclick="createGrid()">Create New Grid</button>
+			<div>
+				<label for="gridsize">Size:</label>
+				<br/>
+				<input id="small" name="size" type="radio" value="10" onclick="setGridSize()" checked="true">Small
+				<input id="medium" name="size" type="radio" value="15" onclick="setGridSize()">Medium
+				<input id="large" name="size" type="radio" value="20" onclick="setGridSize()">Large
+			</div>
 			<br/>
-			<input id="small" name="size" type="radio" value="10" onclick="setGridSize()" checked="true">Small
-			<input id="medium" name="size" type="radio" value="15" onclick="setGridSize()">Medium
-			<input id="large" name="size" type="radio" value="20" onclick="setGridSize()">Large
-		</div>
-		<br/>
-		<div id="wordinput">
 			<label for="wordbank">Word Bank</label>
-			<!-- <input class="wordbank" type="text"> -->
-		</div>
-		<!-- <button type="button" onclick="createNewInputElem()">Add Word</button> -->
-		<br/>
+			<div id="wordinput">
+				<!-- <input class="wordbank" type="text"> -->
+			</div>
+			<!-- <button type="button" onclick="createNewInputElem()">Add Word</button> -->
+			<br/>
 
-		<button type="button" onclick="createGrid()">Create New Grid</button>
-	</form>
+		</form>
+	</div>
 	<script src="wordsearch.js"></script>
 </body>
 </html>

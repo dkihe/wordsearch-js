@@ -1,3 +1,26 @@
+body {
+	font-family: 'Montserrat', sans-serif;
+}
+
 canvas {
 	border: 1px solid black;
+}
+
+#canvasarea {
+	width: 50%;
+	height: 100%;
+}
+
+#gridform {
+	width: 50%;
+	height: 100%;
+}
+
+#container {
+	display: flex;
+}
+
+.wordbank, button {
+	display: block;
+	margin-bottom: .5rem;
 }

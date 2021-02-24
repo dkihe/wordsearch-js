@@ -59,8 +59,9 @@ let insertRandomChar = () => {
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
 			if (gridarray[x][y] == null) {
-				ctx.font = "32px Arial";
+				ctx.font = "32px Montserrat";
 				ctx.textBaseline = 'top'
+				ctx.textAlign = "start";
 				gridarray[x][y] = characters.charAt(Math.floor(Math.random() * 26));
 				ctx.fillStyle = 'black'
 				ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
@@ -119,8 +120,9 @@ let gridTest = () => {
 			gridarray[x][y] = x + ", " + y
 
 			// Fill Grid 
-			ctx.font = "16px Arial";
+			ctx.font = "16px Montserrat";
 			ctx.textBaseline = 'top'
+			ctx.textAlign = "start";
 			ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
 		}
 	}
@@ -296,8 +298,9 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX + i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Arial";
+				ctx.font = "32px Montserrat";
 				ctx.textBaseline = 'top'
+				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX + i][startY], (startX + i) * cellSize, startY * cellSize);
 				break;
@@ -305,8 +308,9 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX - i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Arial";
+				ctx.font = "32px Montserrat";
 				ctx.textBaseline = 'top'
+				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX - i][startY], (startX - i) * cellSize, startY * cellSize);
 				break;
@@ -314,8 +318,9 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX][(startY + i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Arial";
+				ctx.font = "32px Montserrat";
 				ctx.textBaseline = 'top'
+				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX][(startY + i)], startX * cellSize, (startY + i) * cellSize);
 				break;
@@ -323,8 +328,9 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX][(startY - i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Arial";
+				ctx.font = "32px Montserrat";
 				ctx.textBaseline = 'top'
+				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX][(startY - i)], startX * cellSize, (startY - i) * cellSize);
 				break;
