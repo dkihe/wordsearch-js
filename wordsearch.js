@@ -71,36 +71,42 @@ let insertRandomChar = (ctx) => {
 // Create a new grid
 // ONCLICK EVENT
 let createGrid = () => {
-	// let gridSizeValue = parseInt(document.getElementById('gridsize').value)
-	// if (Number.isInteger(gridSizeValue)) {
-	// 	drawGrid(ctx, gridSizeValue)
-	// 	initGridArray()
-	// 	sortWords(wordbankarray)
-	// 	console.log(wordbankarray)
-	// 	checkWordPlacement()
-	// }
-	// else {
-	// 	console.log("not a number")
-	// }
-	drawGrid(ctx, gridSize)
-	initGridArray()
-	sortWords(wordbankarray)
-	console.log(wordbankarray)
-	checkWordPlacement()
+	if (checkWordBankInput()) {
+		appendToWordBank()
+		drawGrid(ctx, gridSize)
+		initGridArray()
+		sortWords(wordbankarray)
+		console.log(wordbankarray)
+		checkWordPlacement()
+	}
+	else {
+		alert("Words must be bettween 3 and " + gridSize + " characters in length")
+	}
 }
 
-let test = () => {
+let setGridSize = () => {
 	if (document.getElementById('small').checked) {
 		gridSize = document.getElementById('small').value
+		setNumInput(5)
 	}
 	else if (document.getElementById('medium').checked) {
 		gridSize = document.getElementById('medium').value
+		setNumInput(8)
 	}
 	else if (document.getElementById('large').checked) {
 		gridSize = document.getElementById('large').value
+		setNumInput(10)
 	}
+}
 
-	console.log(gridSize)
+let setNumInput = (size) => {
+	document.getElementById('wordinput').innerHTML = ""
+	for (let i = 0; i < size; i++) {
+		let input = document.createElement('input')
+		input.type = 'text'
+		input.className = 'wordbank'
+		wordinput.appendChild(input)
+	}
 }
 
 // Simple test function to see layout of grid
@@ -120,7 +126,6 @@ let gridTest = () => {
 
 // Redraws the grid
 let redrawGrid = () => {
-	// let gridSizeValue = parseInt(document.getElementById('gridsize').value)
 	drawGrid(ctx, gridSize)
 	initGridArray()
 }
@@ -135,8 +140,6 @@ let createNewInputElem = () => {
 		input.type = 'text'
 		input.className = 'wordbank'
 		wordinput.appendChild(input)
-		// Testing
-		// checkWordPlacement(wordbankarray[0],3)
 	}
 	else {
 		alert("Words must be bettween 3 and " + gridSize + " characters in length")
@@ -148,6 +151,9 @@ let checkWordBankInput = () => {
 	let wordbank = document.getElementsByClassName('wordbank')
 	for (let i = 0; i < wordbank.length; i++) {
 		if (wordbank[i].value.length < 3 || wordbank[i].value.length > gridSize) {
+			if (wordbank[i].value.length == 0) {
+				continue
+			}
 			return false
 		}
 	}
@@ -163,7 +169,6 @@ let appendToWordBank = () => {
 			wordbankarray.push(wordbank[i].value)
 		}
 	}
-	console.log(wordbankarray)
 }
 
 
@@ -339,6 +344,7 @@ let init = () => {
 		drawGrid(ctx, 10)
 		initGridArray()
 		console.log(gridSize)
+		setNumInput(5)
 		// insertRandomChar(ctx)
 	}
 	else {

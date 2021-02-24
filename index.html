@@ -8,20 +8,19 @@
 <body onload="init()">
 	<canvas id="grid" width="1600" height="1600"></canvas>
 	<form id="gridform">
-		<label for="gridsize">Size:</label>
-		<input id="gridsize" type="text" value="6">
-		<br/>
 		<div>
-			<input id="small" name="size" type="radio" value="10" onclick="test()">Small
-			<input id="medium" name="size" type="radio" value="15" onclick="test()">Medium
-			<input id="large" name="size" type="radio" value="20" onclick="test()">Large
+			<label for="gridsize">Size:</label>
+			<br/>
+			<input id="small" name="size" type="radio" value="10" onclick="setGridSize()" checked="true">Small
+			<input id="medium" name="size" type="radio" value="15" onclick="setGridSize()">Medium
+			<input id="large" name="size" type="radio" value="20" onclick="setGridSize()">Large
 		</div>
 		<br/>
 		<div id="wordinput">
 			<label for="wordbank">Word Bank</label>
-			<input class="wordbank" type="text">
+			<!-- <input class="wordbank" type="text"> -->
 		</div>
-		<button type="button" onclick="createNewInputElem()">Add Word</button>
+		<!-- <button type="button" onclick="createNewInputElem()">Add Word</button> -->
 		<br/>
 
 		<button type="button" onclick="createGrid()">Create New Grid</button>
