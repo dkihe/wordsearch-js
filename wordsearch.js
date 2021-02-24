@@ -54,7 +54,7 @@ let initGridArray = () => {
 }
 
 // Insert random characters on the grid array and the grid itself
-let insertRandomChar = (ctx) => {
+let insertRandomChar = () => {
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
@@ -62,6 +62,7 @@ let insertRandomChar = (ctx) => {
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
 				gridarray[x][y] = characters.charAt(Math.floor(Math.random() * 26));
+				ctx.fillStyle = 'black'
 				ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
 			}
 		}
@@ -78,6 +79,7 @@ let createGrid = () => {
 		sortWords(wordbankarray)
 		console.log(wordbankarray)
 		checkWordPlacement()
+		insertRandomChar()
 	}
 	else {
 		alert("Words must be bettween 3 and " + gridSize + " characters in length")
@@ -130,28 +132,13 @@ let redrawGrid = () => {
 	initGridArray()
 }
 
-// Creates a new input element
-// ONCLICK EVENT
-let createNewInputElem = () => {
-	let wordinput = document.getElementById('wordinput')
-	if (checkWordBankInput()) {
-		appendToWordBank()
-		let input = document.createElement('input')
-		input.type = 'text'
-		input.className = 'wordbank'
-		wordinput.appendChild(input)
-	}
-	else {
-		alert("Words must be bettween 3 and " + gridSize + " characters in length")
-	}
-}
-
 // Check if each word in each input box is valid
 let checkWordBankInput = () => {
 	let wordbank = document.getElementsByClassName('wordbank')
 	for (let i = 0; i < wordbank.length; i++) {
-		if (wordbank[i].value.length < 3 || wordbank[i].value.length > gridSize) {
-			if (wordbank[i].value.length == 0) {
+		let word = wordbank[i].value.replace(/\s/g, '');
+		if (word.length < 3 || word.length > gridSize) {
+			if (word.length == 0) {
 				continue
 			}
 			return false
@@ -162,15 +149,14 @@ let checkWordBankInput = () => {
 
 // Append new words to the wordbank array
 let appendToWordBank = () => {
-	wordbankarray = []
 	let wordbank = document.getElementsByClassName('wordbank')
 	for (let i = 0; i < wordbank.length; i++) {
-		if (wordbank[i].value.length > 0) {
-			wordbankarray.push(wordbank[i].value)
+		let word = wordbank[i].value.replace(/\s/g, '').toUpperCase();
+		if (word.length > 0) {
+			wordbankarray.push(word)
 		}
 	}
 }
-
 
 // Sort an array (arr) in descending order according to word length
 let sortWords = (arr) => {
@@ -204,7 +190,9 @@ let checkWordPlacement = () => {
 				if (loops >= looplimit) {
 					isPlaced = true
 					console.log("WORDS CANT FIT")
-					eraseGrid ()
+					drawGrid(ctx, gridSize)
+					initGridArray()
+					alert("Error fitting words.  Try inputting shoter words.")
 					break
 				}
 				console.log("RETURNED FALSE")
@@ -224,8 +212,8 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 0:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX + wordLength <= gridSize - 1)) {
+						console.log(word[i] + ", " + gridarray[pointX + i][pointY])
 						if ((gridarray[pointX + i][pointY] == null) || (gridarray[pointX + i][pointY] == word[i])) {
-							console.log(word[i])
 							console.log("PLACE: " + word[i] + " AT: " + (pointX + i) + ", " + pointY)
 						}
 						else {
@@ -243,6 +231,7 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 1:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX - wordLength >= 0)) {
+						console.log(word[i] + ", " + gridarray[pointX - i][pointY])
 						if ((gridarray[pointX - i][pointY] == null) || (gridarray[pointX - i][pointY] == word[i])) {
 							console.log("PLACE: " + word[i] + " AT: " + (pointX - i) + ", " + pointY)
 						}
@@ -261,6 +250,7 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 2:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY + wordLength <= gridSize - 1)) {
+						console.log(word[i] + ", " + gridarray[pointX][pointY + i])
 						if ((gridarray[pointX][pointY + i] == null) || (gridarray[pointX][pointY + i] == word[i])) {
 							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY + i))
 						}
@@ -279,6 +269,7 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 3:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY - wordLength >= 0)) {
+						console.log(word[i] + ", " + gridarray[pointX][pointY - i])
 						if ((gridarray[pointX][pointY - i] == null) || (gridarray[pointX][pointY - i] == word[i])) {
 							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY - i))
 						}
@@ -302,35 +293,39 @@ let placeWord = (word, startX, startY, dir) => {
 	for (let i = 0; i < word.length; i++) {
 		switch (dir) {
 			case 0:
-				gridarray[startX + i][startY] = word[i].toUpperCase()
+				gridarray[startX + i][startY] = word[i]
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
+				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX + i][startY], (startX + i) * cellSize, startY * cellSize);
 				break;
 			case 1:
-				gridarray[startX - i][startY] = word[i].toUpperCase()
+				gridarray[startX - i][startY] = word[i]
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
+				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX - i][startY], (startX - i) * cellSize, startY * cellSize);
 				break;
 			case 2:
-				gridarray[startX][(startY + i)] = word[i].toUpperCase()
+				gridarray[startX][(startY + i)] = word[i]
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
+				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX][(startY + i)], startX * cellSize, (startY + i) * cellSize);
 				break;
 			case 3:
-				gridarray[startX][(startY - i)] = word[i].toUpperCase()
+				gridarray[startX][(startY - i)] = word[i]
 
 				// Fill Grid 
 				ctx.font = "32px Arial";
 				ctx.textBaseline = 'top'
+				ctx.fillStyle = 'red'
 				ctx.fillText(gridarray[startX][(startY - i)], startX * cellSize, (startY - i) * cellSize);
 				break;
 		}
