@@ -73,6 +73,7 @@ let insertRandomChar = () => {
 // Create a new grid
 // ONCLICK EVENT
 let createGrid = () => {
+	wordbankarray = []
 	if (checkWordBankInput()) {
 		appendToWordBank()
 		drawGrid(ctx, gridSize)
