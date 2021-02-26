@@ -12,7 +12,13 @@ let wordbankarray = []
 
 // Global bool to check if user has clicked the canvas
 let isDown
+
+// Globals needed for handling mouse events
+// Offset positions
 let prevX, prevY = -300
+// Grid positions
+let gridposX, gridposY
+
 // Saved grid image
 let imageData
 
@@ -374,10 +380,20 @@ let handleMouseDown = (e) => {
 
 	e.preventDefault();
 
+	// let rect = canvas.getBoundingClientRect()
+	// let mouseX = window.event.clientX - rect.left
+	// let mouseY = window.event.clientY - rect.top
+	
 	prevX = e.offsetX
 	prevY = e.offsetY
+	
+	gridposX = Math.floor(prevX/cellSize)
+	gridposY = Math.floor(prevY/cellSize)
 
 	isDown = true;
+
+	console.log("OFFSET: " + prevX, prevY)
+	console.log("GRID POS: " + gridposX, gridposY)
 }
 
 let handleMouseMove = (e) => {
@@ -387,21 +403,25 @@ let handleMouseMove = (e) => {
 
 	e.preventDefault();   
 
+	let prevnearestCellX = (cellSize * Math.floor(prevX/cellSize)) + (cellSize/2)
+	let prevnearestCellY = (cellSize * Math.floor(prevY/cellSize)) + (cellSize/2)
+	let offsetnearestCellX = (cellSize * Math.floor(e.offsetX/cellSize)) + (cellSize/2)
+	let offsetnearestCellY = (cellSize * Math.floor(e.offsetY/cellSize)) + (cellSize/2)
 	// Change in X/Y
-	let dx = e.offsetX - prevX
-	let dy = e.offsetY - prevY
+	let dx = offsetnearestCellX - prevnearestCellX
+	let dy = offsetnearestCellY - prevnearestCellY
+
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	ctx.putImageData(imageData,0,0)
 	ctx.beginPath();
-	ctx.moveTo(prevX, prevY);
-	
+	ctx.moveTo(prevnearestCellX, prevnearestCellY);
 
 	if (Math.abs(dx) > Math.abs(dy)) {
-		ctx.lineTo(e.offsetX ,prevY);
+		ctx.lineTo(offsetnearestCellX, prevnearestCellY);
 	}
 	else {
-		ctx.lineTo(prevX ,e.offsetY);
+		ctx.lineTo(prevnearestCellX, offsetnearestCellY);
 	}
 	ctx.stroke()
 	ctx.closePath()
@@ -410,4 +430,29 @@ let handleMouseMove = (e) => {
 let handleMouseUp = (e) => {
 	e.preventDefault();
 	isDown=false;
+}
+
+
+let mouseDown = () => {
+	// let temppos
+	// let rect = canvas.getBoundingClientRect()
+	// let mouseX = window.event.clientX - rect.left
+	// let mouseY = window.event.clientY - rect.top
+
+	// let gridposX = Math.floor(mouseX/cellSize)
+	// let gridposY = Math.floor(mouseY/cellSize)
+	
+
+	// if (!clicked) {
+	// 	ctx.fillStyle = "rgba(255, 238, 0, 0.5)";;
+	// 	ctx.fillRect(gridposX * cellSize, gridposY * cellSize, cellSize, cellSize)
+	// 	temppos = [gridposX, gridposY]
+	// 	clicked = true
+	// }
+	// else {
+		
+	// }
+	// console.log(gridposX, gridposY)
+
+
 }
