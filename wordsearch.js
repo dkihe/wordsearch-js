@@ -12,6 +12,7 @@ let wordbankarray = []
 
 // Global bool to check if user has clicked the canvas
 let isDown
+let prevX, prevY = -300
 // Saved grid image
 let imageData
 
@@ -345,30 +346,6 @@ let placeWord = (word, startX, startY, dir) => {
 	}
 }
 
-let mouseDown = () => {
-	// let temppos
-	// let rect = canvas.getBoundingClientRect()
-	// let mouseX = window.event.clientX - rect.left
-	// let mouseY = window.event.clientY - rect.top
-
-	// let gridposX = Math.floor(mouseX/cellSize)
-	// let gridposY = Math.floor(mouseY/cellSize)
-	
-
-	// if (!clicked) {
-	// 	ctx.fillStyle = "rgba(255, 238, 0, 0.5)";;
-	// 	ctx.fillRect(gridposX * cellSize, gridposY * cellSize, cellSize, cellSize)
-	// 	temppos = [gridposX, gridposY]
-	// 	clicked = true
-	// }
-	// else {
-		
-	// }
-	// console.log(gridposX, gridposY)
-
-
-}
-
 let init = () => {
 	// Check if canvas is nullss
 	if (ctx) {
@@ -393,74 +370,44 @@ let init = () => {
 	}
 }
 
-// window.onload = (e) => {
-// 	// document.getElementById("grid").addEventListener("mousedown", (e) => handleMouseDown(e))
-// 	// document.getElementById("grid").addEventListener("mousemove", (e) => handleMouseMove(e))
-// 	// document.getElementById("grid").addEventListener("mouseup", (e) => handleMouseUp(e))
-// 	// document.getElementById("grid").onmousedown((e) => handleMouseDown(e))
-// 	// document.getElementById("grid").mousemove((e) => handleMouseMove(e))
-// 	// document.getElementById("grid").mouseup((e) => handleMouseUp(e))
-// }
-
-
-
-
-
-
-
 let handleMouseDown = (e) => {
-  // let the browser know we will handle this event
 
-  e.preventDefault();   
+	e.preventDefault();
 
-  // get the mouse position
+	prevX = e.offsetX
+	prevY = e.offsetY
 
-  var mouseX=parseInt(e.clientX);
-  var mouseY=parseInt(e.clientY);
-
-  // set an isDown flag to indicate dragging has started
-
-  isDown=true;
-
-  // save the starting mouse position 
-  // (it will be the beginning point of the line);
-
-  startX=mouseX;
-  startY=mouseY;
+	isDown = true;
 }
 
 let handleMouseMove = (e) => {
+	if(!isDown) {
+		return;
+	}
 
-  // if we're not dragging, ignore this mousemove
+	e.preventDefault();   
 
-  if(!isDown){ return; }
+	// Change in X/Y
+	let dx = e.offsetX - prevX
+	let dy = e.offsetY - prevY
 
-  // let the browser know we will handle this event
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctx.putImageData(imageData,0,0)
+	ctx.beginPath();
+	ctx.moveTo(prevX, prevY);
+	
 
-  e.preventDefault();   
-
-  // get the mouse position
-
-  var mouseX=parseInt(e.clientX);
-  var mouseY=parseInt(e.clientY);
-
-  // draw the current line
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.putImageData(imageData,0,0)
-  ctx.beginPath();
-  ctx.moveTo(startX,startY);
-  ctx.lineTo(mouseX,mouseY);
-  ctx.stroke()
+	if (Math.abs(dx) > Math.abs(dy)) {
+		ctx.lineTo(e.offsetX ,prevY);
+	}
+	else {
+		ctx.lineTo(prevX ,e.offsetY);
+	}
+	ctx.stroke()
+	ctx.closePath()
 }
 
 let handleMouseUp = (e) => {
-
-  // let the browser know we will handle this event
-
-  e.preventDefault();   
-
-  // clear the dragging flag since the drag is donw
-
-  isDown=false;
-
+	e.preventDefault();
+	isDown=false;
 }
