@@ -15,7 +15,7 @@ let isDown
 
 // Globals needed for handling mouse events
 // Offset positions
-let prevX, prevY = -300
+let prevX, prevY
 // Grid positions
 let gridposX, gridposY
 
@@ -71,7 +71,7 @@ let insertRandomChar = () => {
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
 			if (gridarray[x][y] == null) {
-				ctx.font = "1em Montserrat";
+				ctx.font = "24px Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				gridarray[x][y] = characters.charAt(Math.floor(Math.random() * 26));
@@ -312,7 +312,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX + i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "1em Montserrat";
+				ctx.font = "24px Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -322,7 +322,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX - i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "1em Montserrat";
+				ctx.font = "24px Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -332,7 +332,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX][(startY + i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "1em Montserrat";
+				ctx.font = "24px Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -342,7 +342,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX][(startY - i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "1em Montserrat";
+				ctx.font = "24px Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -392,8 +392,8 @@ let handleMouseDown = (e) => {
 
 	isDown = true;
 
-	console.log("OFFSET: " + prevX, prevY)
-	console.log("GRID POS: " + gridposX, gridposY)
+	// console.log("OFFSET: " + prevX, prevY)
+	// console.log("GRID POS: " + gridposX, gridposY)
 }
 
 let handleMouseMove = (e) => {
@@ -414,14 +414,21 @@ let handleMouseMove = (e) => {
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	ctx.putImageData(imageData,0,0)
+	ctx.strokeStyle = "rgba(255, 238, 0, 0.75)"
 	ctx.beginPath();
+	ctx.lineWidth = (cellSize/2)
 	ctx.moveTo(prevnearestCellX, prevnearestCellY);
+	console.log("DELTA: " + dx, dy)
 
 	if (Math.abs(dx) > Math.abs(dy)) {
+		
 		ctx.lineTo(offsetnearestCellX, prevnearestCellY);
+		console.log(offsetnearestCellX, prevnearestCellY)
 	}
 	else {
+		
 		ctx.lineTo(prevnearestCellX, offsetnearestCellY);
+		console.log(prevnearestCellX, offsetnearestCellY)
 	}
 	ctx.stroke()
 	ctx.closePath()
@@ -431,6 +438,8 @@ let handleMouseUp = (e) => {
 	e.preventDefault();
 	isDown=false;
 }
+
+// ADD CLAMP FUNCTION FOR LINE DRAWING
 
 
 let mouseDown = () => {
