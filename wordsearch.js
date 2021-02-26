@@ -10,6 +10,11 @@ let gridarray
 // Wordbank array
 let wordbankarray = []
 
+// Global bool to check if user has clicked the canvas
+let isDown
+// Saved grid image
+let imageData
+
 // Draw the grid
 let drawGrid = (ctx, gridLength) => {
 	// Change canvas width and height according to the number of rows/cols
@@ -59,7 +64,7 @@ let insertRandomChar = () => {
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
 			if (gridarray[x][y] == null) {
-				ctx.font = "32px Montserrat";
+				ctx.font = "1em Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				gridarray[x][y] = characters.charAt(Math.floor(Math.random() * 26));
@@ -82,6 +87,7 @@ let createGrid = () => {
 		console.log(wordbankarray)
 		checkWordPlacement()
 		insertRandomChar()
+		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 	}
 	else {
 		alert("Words must be bettween 3 and " + gridSize + " characters in length")
@@ -299,7 +305,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX + i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Montserrat";
+				ctx.font = "1em Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -309,7 +315,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX - i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Montserrat";
+				ctx.font = "1em Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -319,7 +325,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX][(startY + i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Montserrat";
+				ctx.font = "1em Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -329,7 +335,7 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX][(startY - i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "32px Montserrat";
+				ctx.font = "1em Montserrat";
 				ctx.textBaseline = 'top'
 				ctx.textAlign = "start";
 				ctx.fillStyle = 'red'
@@ -339,17 +345,122 @@ let placeWord = (word, startX, startY, dir) => {
 	}
 }
 
+let mouseDown = () => {
+	// let temppos
+	// let rect = canvas.getBoundingClientRect()
+	// let mouseX = window.event.clientX - rect.left
+	// let mouseY = window.event.clientY - rect.top
+
+	// let gridposX = Math.floor(mouseX/cellSize)
+	// let gridposY = Math.floor(mouseY/cellSize)
+	
+
+	// if (!clicked) {
+	// 	ctx.fillStyle = "rgba(255, 238, 0, 0.5)";;
+	// 	ctx.fillRect(gridposX * cellSize, gridposY * cellSize, cellSize, cellSize)
+	// 	temppos = [gridposX, gridposY]
+	// 	clicked = true
+	// }
+	// else {
+		
+	// }
+	// console.log(gridposX, gridposY)
+
+
+}
+
 let init = () => {
 	// Check if canvas is nullss
 	if (ctx) {
+		document.getElementById("grid").addEventListener("mousedown", (e) => handleMouseDown(e))
+		document.getElementById("grid").addEventListener("mousemove", (e) => handleMouseMove(e))
+		document.getElementById("grid").addEventListener("mouseup", (e) => handleMouseUp(e))
 		// Create default grid
 		drawGrid(ctx, 10)
 		initGridArray()
+
+		// TESTING
+		// gridTest()
+
+
 		console.log(gridSize)
 		setNumInput(5)
+		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 		// insertRandomChar(ctx)
 	}
 	else {
 		console.log("ERROR")
 	}
+}
+
+// window.onload = (e) => {
+// 	// document.getElementById("grid").addEventListener("mousedown", (e) => handleMouseDown(e))
+// 	// document.getElementById("grid").addEventListener("mousemove", (e) => handleMouseMove(e))
+// 	// document.getElementById("grid").addEventListener("mouseup", (e) => handleMouseUp(e))
+// 	// document.getElementById("grid").onmousedown((e) => handleMouseDown(e))
+// 	// document.getElementById("grid").mousemove((e) => handleMouseMove(e))
+// 	// document.getElementById("grid").mouseup((e) => handleMouseUp(e))
+// }
+
+
+
+
+
+
+
+let handleMouseDown = (e) => {
+  // let the browser know we will handle this event
+
+  e.preventDefault();   
+
+  // get the mouse position
+
+  var mouseX=parseInt(e.clientX);
+  var mouseY=parseInt(e.clientY);
+
+  // set an isDown flag to indicate dragging has started
+
+  isDown=true;
+
+  // save the starting mouse position 
+  // (it will be the beginning point of the line);
+
+  startX=mouseX;
+  startY=mouseY;
+}
+
+let handleMouseMove = (e) => {
+
+  // if we're not dragging, ignore this mousemove
+
+  if(!isDown){ return; }
+
+  // let the browser know we will handle this event
+
+  e.preventDefault();   
+
+  // get the mouse position
+
+  var mouseX=parseInt(e.clientX);
+  var mouseY=parseInt(e.clientY);
+
+  // draw the current line
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.putImageData(imageData,0,0)
+  ctx.beginPath();
+  ctx.moveTo(startX,startY);
+  ctx.lineTo(mouseX,mouseY);
+  ctx.stroke()
+}
+
+let handleMouseUp = (e) => {
+
+  // let the browser know we will handle this event
+
+  e.preventDefault();   
+
+  // clear the dragging flag since the drag is donw
+
+  isDown=false;
+
 }
