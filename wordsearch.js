@@ -24,6 +24,34 @@ let gridEnd
 // Saved grid image
 let imageData
 
+// Initialize the program (run ONLOAD)
+let init = () => {
+	// Check if canvas is nullss
+	if (ctx) {
+		document.getElementById("grid").addEventListener("mousedown", (e) => handleMouseDown(e))
+		document.getElementById("grid").addEventListener("mousemove", (e) => handleMouseMove(e))
+		document.getElementById("grid").addEventListener("mouseup", (e) => handleMouseUp(e))
+		// Create default grid
+		appendToWordBank()
+		drawGrid(ctx, 10)
+		initGridArray()
+		sortWords(wordbankarray)
+		console.log(wordbankarray)
+
+		// TESTING
+		// gridTest()
+
+
+		console.log(gridSize)
+		checkWordPlacement()
+		insertRandomChar(ctx)
+		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	}
+	else {
+		console.log("ERROR")
+	}
+}
+
 // Draw the grid
 let drawGrid = (ctx, gridLength) => {
 	// Change canvas width and height according to the number of rows/cols
@@ -170,6 +198,7 @@ let appendToWordBank = () => {
 	let wordbank = document.getElementsByClassName('wordbank')
 	for (let i = 0; i < wordbank.length; i++) {
 		let word = wordbank[i].value.replace(/\s/g, '').toUpperCase();
+		wordbank[i].id = word
 		if (word.length > 0) {
 			wordbankarray.push(word)
 		}
@@ -354,37 +383,9 @@ let placeWord = (word, startX, startY, dir) => {
 	}
 }
 
-let init = () => {
-	// Check if canvas is nullss
-	if (ctx) {
-		document.getElementById("grid").addEventListener("mousedown", (e) => handleMouseDown(e))
-		document.getElementById("grid").addEventListener("mousemove", (e) => handleMouseMove(e))
-		document.getElementById("grid").addEventListener("mouseup", (e) => handleMouseUp(e))
-		// Create default grid
-		drawGrid(ctx, 10)
-		initGridArray()
-
-		// TESTING
-		// gridTest()
-
-
-		console.log(gridSize)
-		setNumInput(5)
-		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
-		// insertRandomChar(ctx)
-	}
-	else {
-		console.log("ERROR")
-	}
-}
-
 let handleMouseDown = (e) => {
 
 	e.preventDefault();
-
-	// let rect = canvas.getBoundingClientRect()
-	// let mouseX = window.event.clientX - rect.left
-	// let mouseY = window.event.clientY - rect.top
 	
 	prevX = e.offsetX
 	prevY = e.offsetY
@@ -445,6 +446,14 @@ let handleMouseUp = (e) => {
 
 	if (getHighlightedWord (gridStart, gridEnd)) {
 		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+		// console.log(wordbankarray)
+		if (wordbankarray.length <= 0) {
+			alert("All words have been found!")
+		}
+	}
+	else {
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+		ctx.putImageData(imageData,0,0)
 	}
 
 	isDown=false;
@@ -463,7 +472,7 @@ let getHighlightedWord = (gridS, gridE) => {
 	// console.log("START LETTER: " + gridarray[gsX][gsY])
 	// console.log("END LETTER: " + gridarray[geX ][geY])
 	
-	// console.log(gsX - geX , gsY - geY)
+	console.log(geX - gsX , geY - gsY)
 
 	let answer = []
 	let dir
@@ -491,30 +500,31 @@ let getHighlightedWord = (gridS, gridE) => {
 }
 
 checkWord = (word) => {
-	let result
-
-	let possiblewords = wordbankarray.filter(element => {
-		if (element[0] == word[0] || element[element.length - 1] == word[0]) {
-			return element
-		}
-	})
-
-	if (possiblewords.length > 0) {
-		if (possiblewords.indexOf(word.join('')) >= 0) {
-			result = word.join('')
-			wordbankarray = wordbankarray.filter(element => { return element != result })
+	// console.log(word)
+	if (wordbankarray.length > 0) {
+		if (wordbankarray.indexOf(word.join('')) >= 0) {
+			console.log(word.join(''))
+			document.getElementById(word.join('')).style.textDecoration = "line-through"
+			wordbankarray = wordbankarray.filter(element => { 
+				console.log(element, word.join(''))
+				return element != word.join('') 
+			})
+			console.log(wordbankarray)
 			return true
 		}
-		else if (possiblewords.indexOf(word.reverse().join('')) >= 0) {
-			result = word.join('')
-			wordbankarray = wordbankarray.filter(element => { return element.split('').reverse().join('') != word.reverse().join('') })
+		else if (wordbankarray.indexOf(word.reverse().join('')) >= 0){
+			console.log(word.reverse().join(''))
+			document.getElementById(word.reverse().join('')).style.textDecoration = "line-through"
+			wordbankarray = wordbankarray.filter(element => { 
+				console.log(element, word.reverse().join(''))
+				return element != word.reverse().join('') 
+			})
+			console.log(wordbankarray)
 			return true
-		}
-		else {
-			return false
 		}
 	}
 	else {
+		console.log("none")
 		return false
 	}
 }
