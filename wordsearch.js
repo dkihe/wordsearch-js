@@ -16,8 +16,10 @@ let isDown
 // Globals needed for handling mouse events
 // Offset positions
 let prevX, prevY
-// Grid positions
-let gridposX, gridposY
+
+// Grid starting position and end position when using mouse
+let gridStart
+let gridEnd
 
 // Saved grid image
 let imageData
@@ -192,7 +194,7 @@ let checkWordPlacement = () => {
 	randPointX = Math.floor(Math.random() * (gridSize - 1))
 	randPointY = Math.floor(Math.random() * (gridSize - 1))
 	
-	console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
+	// console.log("RANDOM POINT: " + randPointX + ", " + randPointY)
 
 	dir = Math.floor(Math.random() * 4)
 	for (let word = 0; word < wordbankarray.length; word++) {
@@ -205,13 +207,13 @@ let checkWordPlacement = () => {
 			else {
 				if (loops >= looplimit) {
 					isPlaced = true
-					console.log("WORDS CANT FIT")
+					// console.log("WORDS CANT FIT")
 					drawGrid(ctx, gridSize)
 					initGridArray()
 					alert("Error fitting words.  Try inputting shoter words.")
 					break
 				}
-				console.log("RETURNED FALSE")
+				// console.log("RETURNED FALSE")
 				loops += 1
 				dir = Math.floor(Math.random() * 4)
 				randPointX = Math.floor(Math.random() * (gridSize - 1))
@@ -228,17 +230,17 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 0:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX + wordLength <= gridSize - 1)) {
-						console.log(word[i] + ", " + gridarray[pointX + i][pointY])
+						// console.log(word[i] + ", " + gridarray[pointX + i][pointY])
 						if ((gridarray[pointX + i][pointY] == null) || (gridarray[pointX + i][pointY] == word[i])) {
-							console.log("PLACE: " + word[i] + " AT: " + (pointX + i) + ", " + pointY)
+							// console.log("PLACE: " + word[i] + " AT: " + (pointX + i) + ", " + pointY)
 						}
 						else {
-							console.log("DOES NOT FIT")
+							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						console.log("DOES NOT FIT")
+						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -247,17 +249,17 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 1:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX - wordLength >= 0)) {
-						console.log(word[i] + ", " + gridarray[pointX - i][pointY])
+						// console.log(word[i] + ", " + gridarray[pointX - i][pointY])
 						if ((gridarray[pointX - i][pointY] == null) || (gridarray[pointX - i][pointY] == word[i])) {
-							console.log("PLACE: " + word[i] + " AT: " + (pointX - i) + ", " + pointY)
+							// console.log("PLACE: " + word[i] + " AT: " + (pointX - i) + ", " + pointY)
 						}
 						else {
-							console.log("DOES NOT FIT")
+							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						console.log("DOES NOT FIT")
+						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -266,17 +268,17 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 2:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY + wordLength <= gridSize - 1)) {
-						console.log(word[i] + ", " + gridarray[pointX][pointY + i])
+						// console.log(word[i] + ", " + gridarray[pointX][pointY + i])
 						if ((gridarray[pointX][pointY + i] == null) || (gridarray[pointX][pointY + i] == word[i])) {
-							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY + i))
+							// console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY + i))
 						}
 						else {
-							console.log("DOES NOT FIT")
+							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						console.log("DOES NOT FIT")
+						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -285,17 +287,17 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 3:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY - wordLength >= 0)) {
-						console.log(word[i] + ", " + gridarray[pointX][pointY - i])
+						// console.log(word[i] + ", " + gridarray[pointX][pointY - i])
 						if ((gridarray[pointX][pointY - i] == null) || (gridarray[pointX][pointY - i] == word[i])) {
-							console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY - i))
+							// console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY - i))
 						}
 						else {
-							console.log("DOES NOT FIT")
+							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						console.log("DOES NOT FIT")
+						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
@@ -387,8 +389,10 @@ let handleMouseDown = (e) => {
 	prevX = e.offsetX
 	prevY = e.offsetY
 	
-	gridposX = Math.floor(prevX/cellSize)
-	gridposY = Math.floor(prevY/cellSize)
+	let gridposX = Math.floor(prevX/cellSize)
+	let gridposY = Math.floor(prevY/cellSize)
+
+	gridStart = [gridposX, gridposY]
 
 	isDown = true;
 
@@ -418,17 +422,14 @@ let handleMouseMove = (e) => {
 	ctx.beginPath();
 	ctx.lineWidth = (cellSize/2)
 	ctx.moveTo(prevnearestCellX, prevnearestCellY);
-	console.log("DELTA: " + dx, dy)
 
 	if (Math.abs(dx) > Math.abs(dy)) {
 		
 		ctx.lineTo(offsetnearestCellX, prevnearestCellY);
-		console.log(offsetnearestCellX, prevnearestCellY)
 	}
 	else {
 		
 		ctx.lineTo(prevnearestCellX, offsetnearestCellY);
-		console.log(prevnearestCellX, offsetnearestCellY)
 	}
 	ctx.stroke()
 	ctx.closePath()
@@ -436,32 +437,84 @@ let handleMouseMove = (e) => {
 
 let handleMouseUp = (e) => {
 	e.preventDefault();
+
+	let gridposX = Math.floor(e.offsetX/cellSize)
+	let gridposY = Math.floor(e.offsetY/cellSize)
+
+	gridEnd = [gridposX, gridposY]
+
+	if (getHighlightedWord (gridStart, gridEnd)) {
+		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+	}
+
 	isDown=false;
 }
 
 // ADD CLAMP FUNCTION FOR LINE DRAWING
 
+let getHighlightedWord = (gridS, gridE) => {
+	let gsX = gridS[0]
+	let gsY = gridS[1]
+	let geX = gridE[0]
+	let geY = gridE[1]
 
-let mouseDown = () => {
-	// let temppos
-	// let rect = canvas.getBoundingClientRect()
-	// let mouseX = window.event.clientX - rect.left
-	// let mouseY = window.event.clientY - rect.top
-
-	// let gridposX = Math.floor(mouseX/cellSize)
-	// let gridposY = Math.floor(mouseY/cellSize)
+	// console.log("START: " + gsX, gsY)
+	// console.log("END: " + geX, geY)
+	// console.log("START LETTER: " + gridarray[gsX][gsY])
+	// console.log("END LETTER: " + gridarray[geX ][geY])
 	
+	// console.log(gsX - geX , gsY - geY)
 
-	// if (!clicked) {
-	// 	ctx.fillStyle = "rgba(255, 238, 0, 0.5)";;
-	// 	ctx.fillRect(gridposX * cellSize, gridposY * cellSize, cellSize, cellSize)
-	// 	temppos = [gridposX, gridposY]
-	// 	clicked = true
-	// }
-	// else {
-		
-	// }
-	// console.log(gridposX, gridposY)
+	let answer = []
+	let dir
 
+	if ( geX - gsX  != 0 ) {
+		dir = Math.sign(geX - gsX) 
+		for (let i = 0; i <= Math.abs(gsX - geX); i++) {
+			answer.push(gridarray[gsX + (i * dir)][gsY])
+		}
+	}
+	else {
+		dir = Math.sign(geY - gsY)
+		for (let i = 0; i <= Math.abs(gsY - geY); i++) {
+			answer.push(gridarray[gsX][gsY + (i * dir)])
+		}
+	}
+	let ans = checkWord(answer)
 
+	if (ans) {
+		return true
+	}
+	else {
+		return false
+	}
+}
+
+checkWord = (word) => {
+	let result
+
+	let possiblewords = wordbankarray.filter(element => {
+		if (element[0] == word[0] || element[element.length - 1] == word[0]) {
+			return element
+		}
+	})
+
+	if (possiblewords.length > 0) {
+		if (possiblewords.indexOf(word.join('')) >= 0) {
+			result = word.join('')
+			wordbankarray = wordbankarray.filter(element => { return element != result })
+			return true
+		}
+		else if (possiblewords.indexOf(word.reverse().join('')) >= 0) {
+			result = word.join('')
+			wordbankarray = wordbankarray.filter(element => { return element.split('').reverse().join('') != word.reverse().join('') })
+			return true
+		}
+		else {
+			return false
+		}
+	}
+	else {
+		return false
+	}
 }
