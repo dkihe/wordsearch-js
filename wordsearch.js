@@ -9,6 +9,7 @@ let gridSize = canvas.width/cellSize
 let gridarray
 // Wordbank array
 let wordbankarray = []
+let fontSize = 24
 
 // Global bool to check if user has clicked the canvas
 let isDown
@@ -101,12 +102,12 @@ let insertRandomChar = () => {
 	for (let x = 0; x < gridSize; x++) {
 		for (let y = 0; y < gridSize; y++) {
 			if (gridarray[x][y] == null) {
-				ctx.font = "24px Montserrat";
-				ctx.textBaseline = 'top'
-				ctx.textAlign = "start";
+				ctx.font = fontSize + "px Montserrat";
+				ctx.textBaseline = 'middle'
+				ctx.textAlign = "center";
 				gridarray[x][y] = characters.charAt(Math.floor(Math.random() * 26));
 				ctx.fillStyle = 'black'
-				ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
+				ctx.fillText(gridarray[x][y], x * cellSize + (cellSize/2), y * cellSize + (cellSize/2));
 			}
 		}
 	}
@@ -165,8 +166,8 @@ let gridTest = () => {
 
 			// Fill Grid 
 			ctx.font = "16px Montserrat";
-			ctx.textBaseline = 'top'
-			ctx.textAlign = "start";
+			ctx.textBaseline = 'middle'
+			ctx.textAlign = "center";
 			ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
 		}
 	}
@@ -343,41 +344,41 @@ let placeWord = (word, startX, startY, dir) => {
 				gridarray[startX + i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "24px Montserrat";
-				ctx.textBaseline = 'top'
-				ctx.textAlign = "start";
-				ctx.fillStyle = 'red'
-				ctx.fillText(gridarray[startX + i][startY], (startX + i) * cellSize, startY * cellSize);
+				ctx.font = fontSize + "px Montserrat";
+				ctx.textBaseline = 'middle'
+				ctx.textAlign = "center";
+				// ctx.fillStyle = 'red'
+				ctx.fillText(gridarray[startX + i][startY], (startX + i) * cellSize + (cellSize/2), startY * cellSize + (cellSize/2));
 				break;
 			case 1:
 				gridarray[startX - i][startY] = word[i]
 
 				// Fill Grid 
-				ctx.font = "24px Montserrat";
-				ctx.textBaseline = 'top'
-				ctx.textAlign = "start";
-				ctx.fillStyle = 'red'
-				ctx.fillText(gridarray[startX - i][startY], (startX - i) * cellSize, startY * cellSize);
+				ctx.font = fontSize + "px Montserrat";
+				ctx.textBaseline = 'middle'
+				ctx.textAlign = "center";
+				// ctx.fillStyle = 'red'
+				ctx.fillText(gridarray[startX - i][startY], (startX - i) * cellSize + (cellSize/2), startY * cellSize + (cellSize/2));
 				break;
 			case 2:
 				gridarray[startX][(startY + i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "24px Montserrat";
-				ctx.textBaseline = 'top'
-				ctx.textAlign = "start";
-				ctx.fillStyle = 'red'
-				ctx.fillText(gridarray[startX][(startY + i)], startX * cellSize, (startY + i) * cellSize);
+				ctx.font = fontSize + "px Montserrat";
+				ctx.textBaseline = 'middle'
+				ctx.textAlign = "center";
+				// ctx.fillStyle = 'red'
+				ctx.fillText(gridarray[startX][(startY + i)], startX * cellSize + (cellSize/2), (startY + i) * cellSize + (cellSize/2));
 				break;
 			case 3:
 				gridarray[startX][(startY - i)] = word[i]
 
 				// Fill Grid 
-				ctx.font = "24px Montserrat";
-				ctx.textBaseline = 'top'
-				ctx.textAlign = "start";
-				ctx.fillStyle = 'red'
-				ctx.fillText(gridarray[startX][(startY - i)], startX * cellSize, (startY - i) * cellSize);
+				ctx.font = fontSize + "px Montserrat";
+				ctx.textBaseline = 'middle'
+				ctx.textAlign = "center";
+				// ctx.fillStyle = 'red'
+				ctx.fillText(gridarray[startX][(startY - i)], startX * cellSize + (cellSize/2), (startY - i) * cellSize + (cellSize/2));
 				break;
 		}
 	}
