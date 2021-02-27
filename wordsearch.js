@@ -125,6 +125,10 @@ let createGrid = () => {
 		console.log(wordbankarray)
 		checkWordPlacement()
 		insertRandomChar()
+		let inputcollection = document.getElementsByClassName('wordbank')
+		for (element of inputcollection) {
+			element.style.textDecoration = "none"
+		}
 		imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
 	}
 	else {
@@ -420,7 +424,7 @@ let handleMouseMove = (e) => {
 
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	ctx.putImageData(imageData,0,0)
-	ctx.strokeStyle = "rgba(255, 238, 0, 0.75)"
+	ctx.strokeStyle = "rgba(255, 238, 0, 0.5)"
 	ctx.beginPath();
 	ctx.lineWidth = (cellSize/2)
 	ctx.moveTo(prevnearestCellX, prevnearestCellY);
