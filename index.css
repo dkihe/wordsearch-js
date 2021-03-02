@@ -7,20 +7,63 @@ canvas {
 }
 
 #canvasarea {
-	width: 50%;
-	height: 100%;
+	/* width: 50%;
+	height: 100%; */
+	display: flex;
+	flex-flow: column wrap;
+	flex: 50%;
 }
 
 #gridform {
-	width: 50%;
-	height: 100%;
+	/* width: 50%;
+	height: 100%; */
+	display: flex;
+	flex-flow: column wrap;
+	flex: 50%;
 }
 
 #container {
 	display: flex;
+	flex-flow: row wrap;
 }
 
-.wordbank, button {
+label {
+	letter-spacing: 0.1em;
+	font-size: 1.1em;
+	margin-bottom: 1em;
+}
+
+input {
+	margin: 0 0 1em 3em;
+}
+
+.wordbank {
 	display: block;
-	margin-bottom: .5rem;
+	margin-bottom: .5em;
+	border: 0.1em solid black;
+	border-radius: 0.15em;
+	padding: 0.3em 0.3em;
+	letter-spacing: 0.1em;
+}
+
+button {
+	background-color: white;
+	display: block;
+	width: 25%;
+	border: 0.1em solid black;
+	margin: 0 1em 1em 0;
+	padding: 0.3em 1em;
+	text-decoration: none;
+	border-radius: 0.3em;
+	text-align: center;
+	transition: all 0s;
+	color: black;
+	font-family: 'Montserrat', sans-serif;
+	letter-spacing: 0.1em;
+}
+
+button:hover {
+	color: #919191;
+	border-color: #919191;
+	cursor: pointer;
 }
