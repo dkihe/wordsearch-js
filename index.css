@@ -1,30 +1,36 @@
 body {
 	font-family: 'Montserrat', sans-serif;
+	letter-spacing: 0.1em;
 }
 
 canvas {
 	border: 1px solid black;
 }
 
-#canvasarea {
-	/* width: 50%;
-	height: 100%; */
-	display: flex;
-	flex-flow: column wrap;
-	flex: 50%;
-}
-
-#gridform {
-	/* width: 50%;
-	height: 100%; */
-	display: flex;
-	flex-flow: column wrap;
-	flex: 50%;
-}
-
 #container {
 	display: flex;
 	flex-flow: row wrap;
+}
+
+#canvasarea, #gridform {
+	flex: 1 1 0px;
+}
+
+h1 {
+	width: 100%;
+	text-align: center;
+	letter-spacing: 0.2em;
+	font-size: 3em;
+	margin-bottom: 0;
+}
+
+h2 {
+	width: 100%;
+	text-align: center;
+	letter-spacing: 0.3em;
+	font-size: 0.8em;
+	margin-bottom: 2em;
+	color: #5e5e5e;
 }
 
 label {
