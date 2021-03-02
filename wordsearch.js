@@ -264,79 +264,66 @@ let checkFit = (word, pointX, pointY, dir) => {
 			case 0:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX + wordLength <= gridSize - 1)) {
-						// console.log(word[i] + ", " + gridarray[pointX + i][pointY])
 						if ((gridarray[pointX + i][pointY] == null) || (gridarray[pointX + i][pointY] == word[i])) {
-							// console.log("PLACE: " + word[i] + " AT: " + (pointX + i) + ", " + pointY)
+							continue
 						}
 						else {
-							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
 				return true
-				break
+
 			case 1:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointX - wordLength >= 0)) {
-						// console.log(word[i] + ", " + gridarray[pointX - i][pointY])
 						if ((gridarray[pointX - i][pointY] == null) || (gridarray[pointX - i][pointY] == word[i])) {
-							// console.log("PLACE: " + word[i] + " AT: " + (pointX - i) + ", " + pointY)
+							continue
 						}
 						else {
-							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
 				return true
-				break
+
 			case 2:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY + wordLength <= gridSize - 1)) {
-						// console.log(word[i] + ", " + gridarray[pointX][pointY + i])
 						if ((gridarray[pointX][pointY + i] == null) || (gridarray[pointX][pointY + i] == word[i])) {
-							// console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY + i))
+							continue
 						}
 						else {
-							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
 				return true
-				break
+
 			case 3:
 				for (let i = 0; i <= wordLength; i++) {
 					if ((pointY - wordLength >= 0)) {
-						// console.log(word[i] + ", " + gridarray[pointX][pointY - i])
 						if ((gridarray[pointX][pointY - i] == null) || (gridarray[pointX][pointY - i] == word[i])) {
-							// console.log("PLACE: " + word[i] + " AT: " + pointX + ", " + (pointY - i))
+							continue
 						}
 						else {
-							// console.log("DOES NOT FIT")
 							return false
 						}
 					}
 					else {
-						// console.log("DOES NOT FIT")
 						return false
 					}
 				}
 				return true
-				break
 	}
 }
 
