@@ -1,73 +1,74 @@
 body {
-	font-family: 'Montserrat', sans-serif;
-	letter-spacing: 0.1em;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0.1em;
 }
 
 canvas {
-	border: 1px solid black;
+    border: 1px solid black;
 }
 
 #container {
-	display: flex;
-	flex-flow: row wrap;
+    display: flex;
+    flex-flow: row wrap;
 }
 
-#canvasarea, #gridform {
-	flex: 1 1 0px;
+#canvasarea,
+#gridform {
+    flex: 1 1 0px;
 }
 
 h1 {
-	width: 100%;
-	text-align: center;
-	letter-spacing: 0.35em;
-	font-size: 2em;
-	margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 0.35em;
+    font-size: 2em;
+    margin-bottom: 0;
 }
 
 h2 {
-	width: 100%;
-	text-align: center;
-	letter-spacing: 0.3em;
-	font-size: 0.8em;
-	margin-bottom: 2.5em;
-	color: #5e5e5e;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 0.3em;
+    font-size: 0.8em;
+    margin-bottom: 2.5em;
+    color: #5e5e5e;
 }
 
 label {
-	letter-spacing: 0.1em;
-	font-size: 1.1em;
+    letter-spacing: 0.1em;
+    font-size: 1.1em;
 }
 
 input {
-	margin: 1em 0 1em 0.5em;
+    margin: 1em 0 1em 0.5em;
 }
 
 .wordbank {
-	display: block;
-	border: 0.1em solid black;
-	border-radius: 0.15em;
-	padding: 0.3em 0.3em;
-	letter-spacing: 0.1em;
+    display: block;
+    border: 0.1em solid black;
+    border-radius: 0.15em;
+    padding: 0.3em 0.3em;
+    letter-spacing: 0.1em;
 }
 
 button {
-	background-color: white;
-	display: block;
-	width: 25%;
-	border: 0.1em solid black;
-	margin: 0 1em 1em 0;
-	padding: 0.3em 1em;
-	text-decoration: none;
-	border-radius: 0.3em;
-	text-align: center;
-	transition: all 0s;
-	color: black;
-	font-family: 'Montserrat', sans-serif;
-	letter-spacing: 0.1em;
+    background-color: white;
+    display: block;
+    width: 25%;
+    border: 0.1em solid black;
+    margin: 0 1em 1em 0;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    border-radius: 0.3em;
+    text-align: center;
+    transition: all 0s;
+    color: black;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0.1em;
 }
 
 button:hover {
-	color: #919191;
-	border-color: #919191;
-	cursor: pointer;
+    color: #919191;
+    border-color: #919191;
+    cursor: pointer;
 }
