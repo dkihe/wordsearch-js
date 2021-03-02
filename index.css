@@ -19,8 +19,8 @@ canvas {
 h1 {
 	width: 100%;
 	text-align: center;
-	letter-spacing: 0.2em;
-	font-size: 3em;
+	letter-spacing: 0.35em;
+	font-size: 2em;
 	margin-bottom: 0;
 }
 
@@ -29,23 +29,21 @@ h2 {
 	text-align: center;
 	letter-spacing: 0.3em;
 	font-size: 0.8em;
-	margin-bottom: 2em;
+	margin-bottom: 2.5em;
 	color: #5e5e5e;
 }
 
 label {
 	letter-spacing: 0.1em;
 	font-size: 1.1em;
-	margin-bottom: 1em;
 }
 
 input {
-	margin: 0 0 1em 3em;
+	margin: 1em 0 1em 0.5em;
 }
 
 .wordbank {
 	display: block;
-	margin-bottom: .5em;
 	border: 0.1em solid black;
 	border-radius: 0.15em;
 	padding: 0.3em 0.3em;
