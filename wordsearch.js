@@ -106,7 +106,6 @@ let insertRandomChar = () => {
 };
 
 // Create a new grid
-// ONCLICK EVENT
 let createGrid = () => {
     wordbankarray = [];
     if (checkWordBankInput()) {
@@ -126,6 +125,7 @@ let createGrid = () => {
     }
 };
 
+// Set the size of the grid depending on the given selection
 let setGridSize = () => {
     if (document.getElementById("small").checked) {
         gridSize = document.getElementById("small").value;
@@ -139,6 +139,7 @@ let setGridSize = () => {
     }
 };
 
+// Set the number of input boxes 
 let setNumInput = (size) => {
     document.getElementById("wordinput").innerHTML = "";
     for (let i = 0; i < size; i++) {
@@ -147,27 +148,6 @@ let setNumInput = (size) => {
         input.className = "wordbank";
         wordinput.appendChild(input);
     }
-};
-
-// Simple test function to see layout of grid
-let gridTest = () => {
-    for (let x = 0; x < gridSize; x++) {
-        for (let y = 0; y < gridSize; y++) {
-            gridarray[x][y] = x + ", " + y;
-
-            // Fill Grid
-            ctx.font = "16px Montserrat";
-            ctx.textBaseline = "middle";
-            ctx.textAlign = "center";
-            ctx.fillText(gridarray[x][y], x * cellSize, y * cellSize);
-        }
-    }
-};
-
-// Redraws the grid
-let redrawGrid = () => {
-    drawGrid(ctx, gridSize);
-    initGridArray();
 };
 
 // Check if each word in each input box is valid
@@ -204,7 +184,7 @@ let sortWords = (arr) => {
     });
 };
 
-// Checks if a word can fit at a random location on the grid.  Dir refers to the direction on the word
+// Checks if a word (length) can fit at a random location on the grid.
 let checkWordPlacement = () => {
     let isPlaced = false;
     let randPointX, randPointY, dir;
@@ -239,7 +219,7 @@ let checkWordPlacement = () => {
     }
 };
 
-// Checks to see if the current word will fit at a specific point on the grid
+// Checks to see if the current word will fit at a specific point on the grid by looping through each letter
 let checkFit = (word, pointX, pointY, dir) => {
     let wordLength = word.length - 1;
     switch (dir) {
@@ -301,7 +281,7 @@ let checkFit = (word, pointX, pointY, dir) => {
     }
 };
 
-// Placesa the current word on the grid
+// Place the current word on the grid
 let placeWord = (word, startX, startY, dir) => {
     for (let i = 0; i < word.length; i++) {
         switch (dir) {
@@ -349,6 +329,7 @@ let placeWord = (word, startX, startY, dir) => {
     }
 };
 
+// Handle mouse down event
 let handleMouseDown = (e) => {
     e.preventDefault();
 
@@ -363,6 +344,7 @@ let handleMouseDown = (e) => {
     isDown = true;
 };
 
+// Handle mouse move event
 let handleMouseMove = (e) => {
     if (!isDown) {
         return;
@@ -394,6 +376,7 @@ let handleMouseMove = (e) => {
     ctx.closePath();
 };
 
+// Handle mouse up event
 let handleMouseUp = (e) => {
     e.preventDefault();
 
@@ -415,8 +398,7 @@ let handleMouseUp = (e) => {
     isDown = false;
 };
 
-// ADD CLAMP FUNCTION FOR LINE DRAWING
-
+// Gets the word that was highlighted by the user
 let getHighlightedWord = (gridS, gridE) => {
     let gsX = gridS[0];
     let gsY = gridS[1];
@@ -446,6 +428,7 @@ let getHighlightedWord = (gridS, gridE) => {
     }
 };
 
+// Check if the word highlighted matches a word in the word bank
 checkWord = (word) => {
     if (wordbankarray.length > 0) {
         if (wordbankarray.indexOf(word.join("")) >= 0) {
